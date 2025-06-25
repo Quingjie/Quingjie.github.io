@@ -57,10 +57,16 @@
                 
                 const htmlContent = await response.text();
                 
-                // Remplacer tout le contenu de la page
-                document.open();
-                document.write(htmlContent);
-                document.close();
+                // Extraire seulement le contenu du body pour éviter les conflits
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlContent, 'text/html');
+                const bodyContent = doc.body.innerHTML;
+                
+                // Remplacer le contenu du body actuel
+                document.body.innerHTML = bodyContent;
+                
+                // Réattacher les événements des boutons de langue
+                attacherEvenementsLangue();
                 
                 console.log('✅ Contenu chargé avec succès:', fichier);
                 
@@ -68,6 +74,37 @@
                 console.error('❌ Erreur chargement:', error);
                 afficherErreur(langue, fichier, error.message);
             }
+        }
+        
+        // Fonction pour attacher les événements aux boutons de langue
+        function attacherEvenementsLangue() {
+            const boutons = document.querySelectorAll('.lang-button');
+            boutons.forEach(bouton => {
+                bouton.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    
+                    const href = bouton.getAttribute('href');
+                    let nouvelleLangue = '';
+                    
+                    if (href.includes('cv_fr.html')) {
+                        nouvelleLangue = 'fr-FR';
+                    } else if (href.includes('cv_en.html')) {
+                        nouvelleLangue = 'en-GB';
+                    } else if (href.includes('cv_zh.html')) {
+                        nouvelleLangue = 'zh-CN';
+                    }
+                    
+                    if (nouvelleLangue) {
+                        // Mettre à jour l'URL sans recharger la page
+                        const newUrl = new URL(window.location);
+                        newUrl.searchParams.set('lang', nouvelleLangue);
+                        window.history.pushState({}, '', newUrl);
+                        
+                        // Charger le nouveau contenu
+                        await chargerContenu(nouvelleLangue);
+                    }
+                });
+            });
         }
         
         // Fonction pour afficher une erreur si le fichier n'existe pas
@@ -89,8 +126,15 @@
                     </div>
                     
                     <div style="background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #ffc107;">
-                        <h3 style="color: #856404; margin-top: 0;">Essayez ces liens directs :</h3>
+                        <h3 style="color: #856404; margin-top: 0;">Solutions :</h3>
+                        <ul style="text-align: left; color: #856404;">
+                            <li>Vérifiez que le fichier <code>${fichier}</code> existe sur GitHub</li>
+                            <li>Assurez-vous que le fichier utilise <code>&lt;link rel="stylesheet" href="cv.css"&gt;</code></li>
+                            <li>Vérifiez que tous les fichiers sont bien commités et pushés</li>
+                        </ul>
+                        
                         <div style="margin: 20px 0;">
+                            <strong>Essayez ces liens directs :</strong><br>
                             <a href="cv_fr.html" style="display: inline-block; margin: 10px; padding: 12px 20px; background: #e74c3c; color: white; text-decoration: none; border-radius: 5px;">🇫🇷 CV Français</a>
                             <a href="cv_en.html" style="display: inline-block; margin: 10px; padding: 12px 20px; background: #27ae60; color: white; text-decoration: none; border-radius: 5px;">🇬🇧 CV English</a>
                             <a href="cv_zh.html" style="display: inline-block; margin: 10px; padding: 12px 20px; background: #f39c12; color: white; text-decoration: none; border-radius: 5px;">🇨🇳 CV 中文</a>
@@ -103,11 +147,18 @@
                     
                     <div style="margin-top: 20px; font-size: 12px; color: #6c757d;">
                         <strong>URL actuelle :</strong> ${window.location.href}<br>
-                        <strong>Langue détectée :</strong> ${langue}
+                        <strong>Langue détectée :</strong> ${langue}<br>
+                        <strong>Fichiers requis :</strong> cv_fr.html, cv_en.html, cv_zh.html, cv.css
                     </div>
                 </div>
             `;
         }
+        
+        // Gestion du bouton retour/avant du navigateur
+        window.addEventListener('popstate', async () => {
+            const langue = determinerLangue();
+            await chargerContenu(langue);
+        });
         
         // Démarrage au chargement de la page
         document.addEventListener('DOMContentLoaded', async () => {
