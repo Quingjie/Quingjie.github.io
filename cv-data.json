@@ -1,0 +1,527 @@
+{
+  "metadata": {
+    "availableLanguages": ["fr-FR", "en-GB", "zh-CN"],
+    "lastModified": "2025-01-15",
+    "version": "1.0"
+  },
+  "identity": {
+    "firstName": "Katell",
+    "lastName": "GOUZERH",
+    "birthDate": "2003-04-05",
+    "birthPlace": {
+      "fr-FR": "Quimper, France",
+      "en-GB": "Quimper, France",
+      "zh-CN": "法国坎佩尔"
+    },
+    "nationality": {
+      "fr-FR": "Française",
+      "en-GB": "French",
+      "zh-CN": "法国"
+    },
+    "title": {
+      "fr-FR": "Alternante Ingénieur Informatique",
+      "en-GB": "Computer Engineering Intern",
+      "zh-CN": "计算机工程实习生"
+    },
+    "presentation": {
+      "fr-FR": "Je suis à la recherche d'un contrat d'apprentissage de 24 mois, à raison d'un mois sur deux en entreprise. Je suis disponible dès septembre 2024",
+      "en-GB": "I am looking for an apprenticeship contract of 24 months, at the rate of one month out of two in the company. I am available from September 2024.",
+      "zh-CN": "我正在寻找为期24个月的学徒合同，每两个月在公司工作一个月。我从2024年9月开始可以工作。"
+    },
+    "photo": "katell.jpg"
+  },
+  "contacts": [
+    {
+      "id": "phone",
+      "type": "telephone",
+      "value": "06 46 63 89 89",
+      "label": {
+        "fr-FR": "Téléphone",
+        "en-GB": "Phone",
+        "zh-CN": "电话"
+      }
+    },
+    {
+      "id": "email",
+      "type": "email",
+      "value": "katell.gouzerh@hotmail.com",
+      "label": {
+        "fr-FR": "Mail",
+        "en-GB": "Email",
+        "zh-CN": "邮箱"
+      }
+    },
+    {
+      "id": "address",
+      "type": "address",
+      "value": "75020 Paris",
+      "label": {
+        "fr-FR": "Adresse",
+        "en-GB": "Address",
+        "zh-CN": "地址"
+      }
+    },
+    {
+      "id": "linkedin",
+      "type": "linkedin",
+      "value": "@katell-gouzerh",
+      "label": {
+        "fr-FR": "LinkedIn",
+        "en-GB": "LinkedIn",
+        "zh-CN": "领英"
+      }
+    }
+  ],
+  "education": [
+    {
+      "id": "education1",
+      "degree": {
+        "fr-FR": "Formation d'Ingénieur Informatique",
+        "en-GB": "Computer Engineering Training",
+        "zh-CN": "计算机工程培训"
+      },
+      "institution": {
+        "fr-FR": "Sup Galilée, Université Sorbonne Paris Nord",
+        "en-GB": "Sup Galilée, Université Sorbonne Paris Nord",
+        "zh-CN": "索邦巴黎北大学伽利略学院"
+      },
+      "location": {
+        "fr-FR": "Villetaneuse",
+        "en-GB": "Villetaneuse",
+        "zh-CN": "维勒塔纳斯"
+      },
+      "period": {
+        "start": "2023"
+      }
+    },
+    {
+      "id": "education2",
+      "degree": {
+        "fr-FR": "Cursus Préparatoire Ingénieur Intégré (CP2I)",
+        "en-GB": "Integrated Engineering Preparatory Training (CP2I)",
+        "zh-CN": "综合工程预科培训"
+      },
+      "institution": {
+        "fr-FR": "Sup Galilée, Université Sorbonne Paris Nord",
+        "en-GB": "Sup Galilée, Université Sorbonne Paris Nord",
+        "zh-CN": "索邦巴黎北大学伽利略学院"
+      },
+      "location": {
+        "fr-FR": "Villetaneuse",
+        "en-GB": "Villetaneuse",
+        "zh-CN": "维勒塔纳斯"
+      },
+      "period": {
+        "start": "2021",
+        "end": "2023"
+      },
+      "options": {
+        "fr-FR": "Internet of Things, Domaine d'Application de l'Informatique, Conception Algorithmique, Initiation aux Interfaces graphiques, Méthode Algébrique Pour l'Informatique",
+        "en-GB": "Internet of Things, Field of Application of Computer Science, Algorithmic Design, Introduction to Graphical Interfaces, Algebraic Method for Computer Science",
+        "zh-CN": "物联网，计算机科学应用领域，算法设计，图形界面入门，计算机代数方法"
+      }
+    }
+  ],
+  "workExperience": [
+    {
+      "id": "work1",
+      "type": "professional",
+      "position": {
+        "fr-FR": "Alternante en Informatique",
+        "en-GB": "Computer Science Intern",
+        "zh-CN": "计算机科学实习生"
+      },
+      "company": {
+        "fr-FR": "À définir",
+        "en-GB": "To be defined",
+        "zh-CN": "待定"
+      },
+      "location": {
+        "fr-FR": "Paris",
+        "en-GB": "Paris",
+        "zh-CN": "巴黎"
+      },
+      "period": {
+        "start": "2025"
+      }
+    },
+    {
+      "id": "work2",
+      "type": "professional",
+      "position": {
+        "fr-FR": "Animatrice de colonie de vacances",
+        "en-GB": "Summer Camp Activity Leader",
+        "zh-CN": "夏令营活动领导者"
+      },
+      "company": {
+        "fr-FR": "CSEC Total, Barioz",
+        "en-GB": "CSEC Total, Barioz",
+        "zh-CN": "CSEC道达尔，巴里奥兹"
+      },
+      "location": {
+        "fr-FR": "Barioz",
+        "en-GB": "Barioz",
+        "zh-CN": "巴里奥兹"
+      },
+      "period": {
+        "start": "2021",
+        "end": "2023"
+      },
+      "tasks": [
+        {
+          "fr-FR": "Membre d'une équipe d'animateurs s'occupant d'une cinquantaine d'enfants de 6 à 12 ans pendant 3 semaines",
+          "en-GB": "Member of a team of activity leaders taking care of about fifty children aged six to twelve for three weeks",
+          "zh-CN": "作为活动领导团队的一员，照顾约50名6-12岁的儿童，为期3周"
+        },
+        {
+          "fr-FR": "Responsable Convoyage en 2022 et 2023",
+          "en-GB": "Transport Manager in 2022 and 2023",
+          "zh-CN": "2022年和2023年负责护送工作"
+        },
+        {
+          "fr-FR": "Surveillante Baignade en 2023 (PSC1 ET BSB obtenus en juillet 2023)",
+          "en-GB": "Swimming Supervisor in 2023 (PSC1 and BSB obtained in July 2023)",
+          "zh-CN": "2023年游泳监督员（2023年7月获得PSC1和BSB证书）"
+        }
+      ]
+    },
+    {
+      "id": "work3",
+      "type": "professional",
+      "position": {
+        "fr-FR": "Animatrice",
+        "en-GB": "Activity Leader",
+        "zh-CN": "活动领导者"
+      },
+      "company": {
+        "fr-FR": "Mairie de Montreuil",
+        "en-GB": "Montreuil City Hall",
+        "zh-CN": "蒙特勒伊市政厅"
+      },
+      "location": {
+        "fr-FR": "St Bris-Le-Vineux",
+        "en-GB": "St Bris-Le-Vineux",
+        "zh-CN": "圣布里斯勒维诺"
+      },
+      "period": {
+        "start": "2023",
+        "end": "2023"
+      },
+      "tasks": [
+        {
+          "fr-FR": "Membre d'une équipe d'animateurs s'occupant d'une cinquantaine d'enfants de 4 à 7 ans pendant 10 jours",
+          "en-GB": "Member of a team of activity leaders taking care of about fifty children aged four to seven for ten days",
+          "zh-CN": "作为活动领导团队的一员，照顾约50名4-7岁的儿童，为期10天"
+        }
+      ]
+    },
+    {
+      "id": "work4",
+      "type": "complementary",
+      "position": {
+        "fr-FR": "Membre du Bureau des Étudiants",
+        "en-GB": "Member of the Student Board",
+        "zh-CN": "学生会成员"
+      },
+      "company": {
+        "fr-FR": "Sup Galilée",
+        "en-GB": "Sup Galilée",
+        "zh-CN": "伽利略学院"
+      },
+      "location": {
+        "fr-FR": "Villetaneuse",
+        "en-GB": "Villetaneuse",
+        "zh-CN": "维勒塔纳斯"
+      },
+      "period": {
+        "start": "2022",
+        "end": "2025"
+      },
+      "tasks": [
+        {
+          "fr-FR": "Responsable Partenariats, Communication et Snacks",
+          "en-GB": "Head of Partnerships, Communication and Snacks",
+          "zh-CN": "合作、传播和小食负责人"
+        }
+      ]
+    },
+    {
+      "id": "work5",
+      "type": "complementary",
+      "position": {
+        "fr-FR": "Ambassadrice Communication de l'USPN",
+        "en-GB": "Communication Ambassador of the USPN",
+        "zh-CN": "USPN传播大使"
+      },
+      "company": {
+        "fr-FR": "Université Sorbonne Paris Nord",
+        "en-GB": "Université Sorbonne Paris Nord",
+        "zh-CN": "索邦巴黎北大学"
+      },
+      "location": {
+        "fr-FR": "Villetaneuse",
+        "en-GB": "Villetaneuse",
+        "zh-CN": "维勒塔纳斯"
+      },
+      "period": {
+        "start": "2023"
+      }
+    }
+  ],
+  "skills": {
+    "technical": [
+      {
+        "category": "programming",
+        "name": {
+          "fr-FR": "Langages de Programmation",
+          "en-GB": "Programming Languages",
+          "zh-CN": "编程语言"
+        },
+        "level": 4,
+        "description": {
+          "fr-FR": "C, Python, HTML, CSS, Matlab, MIPS, SQL, Java, Javascript",
+          "en-GB": "C, Python, HTML, CSS, Matlab, MIPS, SQL, Java, Javascript",
+          "zh-CN": "C, Python, HTML, CSS, Matlab, MIPS, SQL, Java, Javascript"
+        }
+      },
+      {
+        "category": "methodology",
+        "name": {
+          "fr-FR": "Algorithmique",
+          "en-GB": "Algorithmic",
+          "zh-CN": "算法"
+        },
+        "level": 4
+      },
+      {
+        "category": "methodology",
+        "name": {
+          "fr-FR": "Web Sémantique",
+          "en-GB": "Semantic Web",
+          "zh-CN": "语义网"
+        },
+        "level": 4
+      },
+      {
+        "category": "tools",
+        "name": {
+          "fr-FR": "Montage Photo/Vidéo",
+          "en-GB": "Photo/Video editing",
+          "zh-CN": "照片/视频编辑"
+        },
+        "level": 3
+      },
+      {
+        "category": "tools",
+        "name": {
+          "fr-FR": "Canva",
+          "en-GB": "Canva",
+          "zh-CN": "Canva"
+        },
+        "level": 4
+      },
+      {
+        "category": "soft",
+        "name": {
+          "fr-FR": "Communication",
+          "en-GB": "Communication",
+          "zh-CN": "沟通"
+        },
+        "level": 5
+      },
+      {
+        "category": "soft",
+        "name": {
+          "fr-FR": "Organisation",
+          "en-GB": "Organization",
+          "zh-CN": "组织"
+        },
+        "level": 5
+      },
+      {
+        "category": "soft",
+        "name": {
+          "fr-FR": "Esprit d'Équipe",
+          "en-GB": "Teamwork",
+          "zh-CN": "团队合作"
+        },
+        "level": 5
+      }
+    ],
+    "languages": [
+      {
+        "code": "fr-FR",
+        "name": {
+          "fr-FR": "Français",
+          "en-GB": "French",
+          "zh-CN": "法语"
+        },
+        "level": "native",
+        "levelText": {
+          "fr-FR": "Langue maternelle",
+          "en-GB": "Native language",
+          "zh-CN": "母语"
+        }
+      },
+      {
+        "code": "en-GB",
+        "name": {
+          "fr-FR": "Anglais",
+          "en-GB": "English",
+          "zh-CN": "英语"
+        },
+        "level": "advanced",
+        "levelText": {
+          "fr-FR": "Avancé",
+          "en-GB": "Advanced",
+          "zh-CN": "高级"
+        }
+      },
+      {
+        "code": "de-DE",
+        "name": {
+          "fr-FR": "Allemand",
+          "en-GB": "German",
+          "zh-CN": "德语"
+        },
+        "level": "beginner",
+        "levelText": {
+          "fr-FR": "Notions",
+          "en-GB": "Basic notions",
+          "zh-CN": "基础"
+        }
+      }
+    ]
+  },
+  "projects": [
+    {
+      "id": "project1",
+      "name": {
+        "fr-FR": "Puissance 4 jouable à 2 ou contre un bot",
+        "en-GB": "Connect 4 playable for 2 or against bot",
+        "zh-CN": "可双人或对战机器人的四子棋"
+      },
+      "description": {
+        "fr-FR": "Programme selon l'algorithme min max pour choisir le meilleur coup (2024, en C)",
+        "en-GB": "Program using min max algorithm to choose the best move (2024, in C)",
+        "zh-CN": "使用极小极大算法选择最佳走法的程序（2024年，C语言）"
+      },
+      "technologies": {
+        "fr-FR": "C, Algorithme Min-Max",
+        "en-GB": "C, Min-Max Algorithm",
+        "zh-CN": "C语言，极小极大算法"
+      },
+      "year": "2024"
+    },
+    {
+      "id": "project2",
+      "name": {
+        "fr-FR": "Pac Man",
+        "en-GB": "Pac Man",
+        "zh-CN": "吃豆人游戏"
+      },
+      "description": {
+        "fr-FR": "Jeu Pac Man développé en C (2022)",
+        "en-GB": "Pac Man game developed in C (2022)",
+        "zh-CN": "用C语言开发的吃豆人游戏（2022年）"
+      },
+      "technologies": {
+        "fr-FR": "C",
+        "en-GB": "C",
+        "zh-CN": "C语言"
+      },
+      "year": "2022"
+    },
+    {
+      "id": "project3",
+      "name": {
+        "fr-FR": "Jeu de la vie en n dimensions",
+        "en-GB": "Game of Life in n dimensions",
+        "zh-CN": "n维生命游戏"
+      },
+      "description": {
+        "fr-FR": "En cours de développement en Java",
+        "en-GB": "Currently in development in Java",
+        "zh-CN": "正在用Java开发中"
+      },
+      "technologies": {
+        "fr-FR": "Java",
+        "en-GB": "Java",
+        "zh-CN": "Java"
+      },
+      "year": "2024"
+    },
+    {
+      "id": "project4",
+      "name": {
+        "fr-FR": "Communication via tubes et threads",
+        "en-GB": "Communication via pipes and threads",
+        "zh-CN": "通过管道和线程通信"
+      },
+      "description": {
+        "fr-FR": "Permettant à deux utilisateurs de communiquer via leurs terminaux, grâce à l'utilisation de tubes et de threads (2024, en C)",
+        "en-GB": "Allowing two users to communicate via their terminals, using pipes and threads (2024, in C)",
+        "zh-CN": "允许两个用户通过终端进行通信，使用管道和线程（2024年，C语言）"
+      },
+      "technologies": {
+        "fr-FR": "C, Tubes, Threads",
+        "en-GB": "C, Pipes, Threads",
+        "zh-CN": "C语言，管道，线程"
+      },
+      "year": "2024"
+    },
+    {
+      "id": "project5",
+      "name": {
+        "fr-FR": "Algorithme d'inversion de matrice",
+        "en-GB": "Matrix inversion algorithm",
+        "zh-CN": "矩阵求逆算法"
+      },
+      "description": {
+        "fr-FR": "Algorithme d'inversion d'une matrice (2023, en C)",
+        "en-GB": "Matrix inversion algorithm (2023, in C)",
+        "zh-CN": "矩阵求逆算法（2023年，C语言）"
+      },
+      "technologies": {
+        "fr-FR": "C, Algèbre linéaire",
+        "en-GB": "C, Linear algebra",
+        "zh-CN": "C语言，线性代数"
+      },
+      "year": "2023"
+    }
+  ],
+  "interests": [
+    {
+      "name": {
+        "fr-FR": "Lecture",
+        "en-GB": "Reading",
+        "zh-CN": "阅读"
+      },
+      "icon": "📚"
+    },
+    {
+      "name": {
+        "fr-FR": "Voyages",
+        "en-GB": "Travel",
+        "zh-CN": "旅行"
+      },
+      "icon": "✈️"
+    },
+    {
+      "name": {
+        "fr-FR": "Photographie",
+        "en-GB": "Photography",
+        "zh-CN": "摄影"
+      },
+      "icon": "📷"
+    },
+    {
+      "name": {
+        "fr-FR": "Badminton",
+        "en-GB": "Badminton",
+        "zh-CN": "羽毛球"
+      },
+      "icon": "🏸"
+    }
+  ]
+}
