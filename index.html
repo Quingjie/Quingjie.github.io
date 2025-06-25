@@ -1,174 +1,125 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>CV Multilingue - Katell GOUZERH</title>
-        
-        <!-- Liens vers autres versions linguistiques pour le SEO -->
-        <link rel="alternate" hreflang="fr-FR" href="cv_fr.html">
-        <link rel="alternate" hreflang="en-GB" href="cv_en.html">
-        <link rel="alternate" hreflang="zh-CN" href="cv_zh.html">
-        <link rel="alternate" hreflang="x-default" href="cv_fr.html">
-        
-        <!-- CSS centralisé -->
-        <link rel="stylesheet" href="cv.css">
-        
-        <!-- Métadonnées pour le SEO -->
-        <meta name="description" content="CV multilingue de Katell GOUZERH - Étudiante ingénieur informatique à la recherche d'une alternance">
-        <meta name="keywords" content="CV, portfolio, ingénieur informatique, alternance, Katell GOUZERH">
-        <meta name="author" content="Katell GOUZERH">
-        
-        <!-- Open Graph -->
-        <meta property="og:title" content="CV Multilingue - Katell GOUZERH">
-        <meta property="og:description" content="Étudiante ingénieur informatique à la recherche d'une alternance">
-        <meta property="og:type" content="website">
-    </head>
-    <body>
-        <div class="loading">
-            <h1>Chargement du CV multilingue...</h1>
-            <p>Le contenu se charge depuis les données XML avec transformation XSLT.</p>
-            <p><small>Détermination de la langue en cours...</small></p>
-            
-            <!-- Boutons de langue de secours -->
-            <div class="emergency-lang-selector" id="emergency-selector" style="display: none;">
-                <p><strong>Choisissez votre langue :</strong></p>
-                <button onclick="goToLanguage('fr-FR')">🇫🇷 Français</button>
-                <button onclick="goToLanguage('en-GB')">🇬🇧 English</button>
-                <button onclick="goToLanguage('zh-CN')">🇨🇳 中文</button>
-                <br><br>
-                <p><strong>Ou accédez directement :</strong></p>
-                <button onclick="window.location.href='cv_fr.html'">📄 CV Français</button>
-                <button onclick="window.location.href='cv_en.html'">📄 CV English</button>
-                <button onclick="window.location.href='cv_zh.html'">📄 CV 中文</button>
-                <br><br>
-                <button onclick="location.reload()" style="background: #e74c3c;">🔄 Recharger</button>
-            </div>
-        </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Multilingue - Katell GOUZERH</title>
+    
+    <!-- CSS centralisé -->
+    <link rel="stylesheet" href="cv.css">
+    
+    <!-- Liens vers autres versions linguistiques pour le SEO -->
+    <link rel="alternate" hreflang="fr-FR" href="?lang=fr-FR">
+    <link rel="alternate" hreflang="en-GB" href="?lang=en-GB">
+    <link rel="alternate" hreflang="zh-CN" href="?lang=zh-CN">
+    <link rel="alternate" hreflang="x-default" href="/">
+</head>
+<body>
+    <div class="loading">
+        <h1>Chargement du CV multilingue...</h1>
+        <p>Chargement du contenu dans la langue appropriée...</p>
+    </div>
 
-        <!-- Panel de debug -->
-        <div class="debug-info" id="debug-info">
-            <div id="debug-content"></div>
-        </div>
-
-        <script>
-            // Variables globales
-            let debugMode = new URLSearchParams(window.location.search).has('debug');
-            let timeoutId;
+    <script>
+        // Fonction pour déterminer la langue selon l'URL
+        function determinerLangue() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const langParam = urlParams.get('lang');
             
-            // Afficher le debug si demandé
-            if (debugMode) {
-                document.getElementById('debug-info').style.display = 'block';
-                updateDebugInfo();
+            // Si zh-CN ou en-GB est spécifiquement demandé dans l'URL
+            if (langParam === 'zh-CN') {
+                return 'zh-CN';
+            } else if (langParam === 'en-GB') {
+                return 'en-GB';
             }
             
-            // Fonction pour aller vers une langue spécifique
-            function goToLanguage(lang) {
-                console.log('🔗 Redirection vers langue:', lang);
-                
-                // Sauvegarder la préférence
-                localStorage.setItem('cv_langue', lang);
-                
-                // Fichiers statiques correspondants
-                const fichiers = {
-                    'fr-FR': 'cv_fr.html',
-                    'en-GB': 'cv_en.html',
-                    'zh-CN': 'cv_zh.html'
-                };
-                
-                const fichier = fichiers[lang];
-                if (fichier) {
-                    window.location.href = fichier;
-                } else {
-                    // Fallback vers le contrôleur avec paramètre
-                    const url = new URL(window.location);
-                    url.searchParams.set('lang', lang);
-                    window.location.href = url.toString();
-                }
-            }
+            // Par défaut : français
+            return 'fr-FR';
+        }
+        
+        // Fonction pour charger et afficher le contenu HTML approprié
+        async function chargerContenu(langue) {
+            const fichiers = {
+                'fr-FR': 'cv_fr.html',
+                'en-GB': 'cv_en.html',
+                'zh-CN': 'cv_zh.html'
+            };
             
-            // Fonction pour déterminer la langue automatiquement
-            function determinerLangueAuto() {
-                // 1. Paramètre GET
-                const urlParams = new URLSearchParams(window.location.search);
-                const langueGet = urlParams.get('lang');
-                if (langueGet && ['fr-FR', 'en-GB', 'zh-CN'].includes(langueGet)) {
-                    return langueGet;
+            const fichier = fichiers[langue];
+            
+            try {
+                console.log('📄 Chargement du fichier:', fichier);
+                
+                const response = await fetch(fichier);
+                if (!response.ok) {
+                    throw new Error(`Fichier ${fichier} non trouvé (${response.status})`);
                 }
                 
-                // 2. localStorage
-                const langueSauvee = localStorage.getItem('cv_langue');
-                if (langueSauvee && ['fr-FR', 'en-GB', 'zh-CN'].includes(langueSauvee)) {
-                    return langueSauvee;
-                }
+                const htmlContent = await response.text();
                 
-                // 3. Navigateur
-                const languesNav = navigator.languages || [navigator.language];
-                for (const langue of languesNav) {
-                    if (langue.startsWith('fr')) return 'fr-FR';
-                    if (langue.startsWith('en')) return 'en-GB';
-                    if (langue.startsWith('zh')) return 'zh-CN';
-                }
+                // Remplacer tout le contenu de la page
+                document.open();
+                document.write(htmlContent);
+                document.close();
                 
-                // 4. Défaut
-                return 'fr-FR';
+                console.log('✅ Contenu chargé avec succès:', fichier);
+                
+            } catch (error) {
+                console.error('❌ Erreur chargement:', error);
+                afficherErreur(langue, fichier, error.message);
             }
+        }
+        
+        // Fonction pour afficher une erreur si le fichier n'existe pas
+        function afficherErreur(langue, fichier, erreur) {
+            const langNames = {
+                'fr-FR': 'Français',
+                'en-GB': 'English',
+                'zh-CN': '中文'
+            };
             
-            // Fonction pour mettre à jour les infos de debug
-            function updateDebugInfo() {
-                if (!debugMode) return;
-                
-                const debugContent = document.getElementById('debug-content');
-                const info = {
-                    'URL': window.location.href,
-                    'Paramètre lang': new URLSearchParams(window.location.search).get('lang') || 'aucun',
-                    'localStorage': localStorage.getItem('cv_langue') || 'vide',
-                    'Navigator': navigator.language,
-                    'Accept-Language': navigator.languages.join(', '),
-                    'User-Agent': navigator.userAgent.substring(0, 50) + '...'
-                };
-                
-                debugContent.innerHTML = '<strong>🐛 Debug:</strong><br>' + 
-                    Object.entries(info)
-                        .map(([key, value]) => `<strong>${key}:</strong> ${value}`)
-                        .join('<br>');
-            }
+            document.body.innerHTML = `
+                <div style="padding: 40px; text-align: center; font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto;">
+                    <h1 style="color: #e74c3c;">❌ Erreur de chargement</h1>
+                    <p>Impossible de charger le CV en <strong>${langNames[langue]}</strong>.</p>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #e74c3c;">
+                        <strong>Fichier recherché :</strong> <code>${fichier}</code><br>
+                        <strong>Erreur :</strong> ${erreur}
+                    </div>
+                    
+                    <div style="background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #ffc107;">
+                        <h3 style="color: #856404; margin-top: 0;">Essayez ces liens directs :</h3>
+                        <div style="margin: 20px 0;">
+                            <a href="cv_fr.html" style="display: inline-block; margin: 10px; padding: 12px 20px; background: #e74c3c; color: white; text-decoration: none; border-radius: 5px;">🇫🇷 CV Français</a>
+                            <a href="cv_en.html" style="display: inline-block; margin: 10px; padding: 12px 20px; background: #27ae60; color: white; text-decoration: none; border-radius: 5px;">🇬🇧 CV English</a>
+                            <a href="cv_zh.html" style="display: inline-block; margin: 10px; padding: 12px 20px; background: #f39c12; color: white; text-decoration: none; border-radius: 5px;">🇨🇳 CV 中文</a>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 30px;">
+                        <button onclick="location.reload()" style="padding: 12px 24px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">🔄 Recharger</button>
+                    </div>
+                    
+                    <div style="margin-top: 20px; font-size: 12px; color: #6c757d;">
+                        <strong>URL actuelle :</strong> ${window.location.href}<br>
+                        <strong>Langue détectée :</strong> ${langue}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Démarrage au chargement de la page
+        document.addEventListener('DOMContentLoaded', async () => {
+            const langueChoisie = determinerLangue();
             
-            // Redirection automatique vers la langue appropriée
-            document.addEventListener('DOMContentLoaded', () => {
-                const langueChoisie = determinerLangueAuto();
-                console.log('🌐 Langue déterminée:', langueChoisie);
-                
-                // Sauvegarder le choix
-                localStorage.setItem('cv_langue', langueChoisie);
-                
-                // Redirection avec un court délai pour voir le chargement
-                setTimeout(() => {
-                    goToLanguage(langueChoisie);
-                }, 1000);
-            });
+            console.log('🌐 Langue déterminée:', langueChoisie);
+            console.log('🔗 URL actuelle:', window.location.href);
+            console.log('📝 Paramètres URL:', new URLSearchParams(window.location.search).toString());
             
-            // Timeout de sécurité - afficher les boutons de secours après 5 secondes
-            timeoutId = setTimeout(() => {
-                const loading = document.querySelector('.loading h1');
-                const emergency = document.getElementById('emergency-selector');
-                
-                if (loading && loading.textContent.includes('Chargement')) {
-                    console.warn('⚠️ Timeout de chargement - affichage des boutons de secours');
-                    loading.textContent = 'Problème de chargement détecté';
-                    emergency.style.display = 'block';
-                }
-            }, 5000);
-            
-            // Mettre à jour le debug si activé
-            if (debugMode) {
-                setInterval(updateDebugInfo, 2000);
-            }
-            
-            // Fonction pour forcer une langue (compatibilité)
-            function forceLanguage(lang) {
-                goToLanguage(lang);
-            }
-        </script>
-    </body>
+            // Charger le contenu approprié
+            await chargerContenu(langueChoisie);
+        });
+    </script>
+</body>
 </html>
