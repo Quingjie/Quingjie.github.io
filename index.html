@@ -23,6 +23,31 @@
     <script>
         let cvData = null;
         
+        // Configuration de la vidéo
+        const videoConfig = {
+            'fr-FR': {
+                title: 'Vidéo d\'un animal',
+                description: 'Cette vidéo présente un animal dans son habitat naturel. Cette vidéo a été réalisée par "Voyages du bout du monde", elle est intégrée à ce site dans le cadre d\'un projet universitaire.',
+                url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=fr&cc_lang_pref=fr&cc_load_policy=1&rel=0&modestbranding=1&iv_load_policy=3',
+                indicator: 'FR 🇫🇷',
+                note: 'Audio original avec interface en français'
+            },
+            'en-GB': {
+                title: 'Animal Video',
+                description: 'This video presents an animal in its natural habitat. This video was made by "Voyages du bout du monde", it is integrated into this site as part of a university project.',
+                url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=en&cc_lang_pref=en&cc_load_policy=1&rel=0&modestbranding=1&iv_load_policy=3',
+                indicator: 'EN 🇬🇧',
+                note: 'Original audio with English interface'
+            },
+            'zh-CN': {
+                title: '动物视频',
+                description: '这个视频展示了一个动物在其自然栖息地。这个视频是由"Voyages du bout du monde"制作的，作为大学项目的一部分被整合到这个网站中。',
+                url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=zh-CN&cc_lang_pref=zh-Hans&cc_load_policy=1&rel=0&modestbranding=1&iv_load_policy=3',
+                indicator: '中文 🇨🇳',
+                note: '原始音频配中文字幕 (Original audio with Chinese subtitles)'
+            }
+        };
+        
         // Fonction pour déterminer la langue selon l'URL
         function determinerLangue() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -68,6 +93,7 @@
         function creerSectionVideo(data, langue) {
             if (!data.video) return '';
             
+            const config = videoConfig[langue];
             const videoTitle = getText(data.video.title, langue);
             const videoDescription = getText(data.video.description, langue);
             const videoUrl = getText(data.video.urls, langue);
@@ -87,7 +113,8 @@
                             'allowfullscreen>' +
                         '</iframe>' +
                     '</div>' +
-                    '<div class="video-description">' + videoDescription + '</div>' +
+                    '<div class="video-description" id="video-description">' + videoDescription + '</div>' +
+                    '<div class="video-note" id="video-note">' + (config ? config.note : '') + '</div>' +
                 '</div>' +
             '</div>';
         }
@@ -153,7 +180,7 @@
             '</div>';
         }
         
-        // Fonction pour créer le contenu principal
+        // Fonction pour créer le contenu principal - CORRIGÉE
         function creerContenuPrincipal(data, langue) {
             const educationTitle = langue === 'zh-CN' ? '教育经历' : langue === 'en-GB' ? 'Education' : 'Formation';
             const workTitle = langue === 'zh-CN' ? '工作经验' : langue === 'en-GB' ? 'Work Experience' : 'Expériences Professionnelles';
@@ -186,6 +213,7 @@
                     '<div>' + getText(data.identity.presentation, langue) + '</div>' +
                 '</div>' +
                 
+                // SECTION FORMATION
                 '<div class="section">' +
                     '<h3 class="section-title">' + educationTitle + '</h3>' +
                     data.education.map(edu => {
@@ -205,6 +233,7 @@
                     }).join('') +
                 '</div>' +
                 
+                // SECTION EXPÉRIENCES PROFESSIONNELLES
                 '<div class="section">' +
                     '<h3 class="section-title">' + workTitle + '</h3>' +
                     professionalWork.map(exp => {
@@ -225,40 +254,11 @@
                         '</div>';
                     }).join('') +
                 '</div>' +
-                    
-                    '<div class="project-category">' + algorithmTitle + '</div>' +
-                    '<div class="projects-grid">' +
-                        algorithmProjects.map(proj => 
-                            '<div class="project-item">' +
-                                '<div style="font-weight: bold; color: #2c3e50; margin-bottom: 10px;">' +
-                                    getText(proj.name, langue) +
-                                '</div>' +
-                                '<div style="margin-bottom: 10px;">' +
-                                    getText(proj.description, langue) +
-                                '</div>' +
-                                '<div style="font-size: 12px; color: #7f8c8d;">' +
-                                    '<strong>Technologies : </strong>' + getText(proj.technologies, langue) +
-                                '</div>' +
-                            '</div>'
-                        ).join('') +
-                    '</div>' +
-                '</div>' +
                 
-                '<div class="section">' +
-                    '<h3 class="section-title">' + interestsTitle + '</h3>' +
-                    '<div class="centers-container">' +
-                        data.interests.map(interest => 
-                            '<div class="center-item">' +
-                                '<span>' + interest.icon + '</span>' +
-                                '<span>' + getText(interest.name, langue) + '</span>' +
-                            '</div>'
-                        ).join('') +
-                    '</div>' +
-                '</div>' +
-
-                // NOUVELLE SECTION VIDÉO ICI
+                // SECTION VIDÉO
                 creerSectionVideo(data, langue) +
                 
+                // SECTION PROJETS INFORMATIQUES
                 '<div class="section">' +
                     '<h3 class="section-title">' + projectsTitle + '</h3>' +
                     
@@ -278,7 +278,38 @@
                             '</div>'
                         ).join('') +
                     '</div>' +
-            '</div>';
+                    
+                    '<div class="project-category">' + algorithmTitle + '</div>' +
+                    '<div class="projects-grid">' +
+                        algorithmProjects.map(proj => 
+                            '<div class="project-item">' +
+                                '<div style="font-weight: bold; color: #2c3e50; margin-bottom: 10px;">' +
+                                    getText(proj.name, langue) +
+                                '</div>' +
+                                '<div style="margin-bottom: 10px;">' +
+                                    getText(proj.description, langue) +
+                                '</div>' +
+                                '<div style="font-size: 12px; color: #7f8c8d;">' +
+                                    '<strong>Technologies : </strong>' + getText(proj.technologies, langue) +
+                                '</div>' +
+                            '</div>'
+                        ).join('') +
+                    '</div>' +
+                '</div>' +
+                
+                // SECTION CENTRES D'INTÉRÊT
+                '<div class="section">' +
+                    '<h3 class="section-title">' + interestsTitle + '</h3>' +
+                    '<div class="centers-container">' +
+                        data.interests.map(interest => 
+                            '<div class="center-item">' +
+                                '<span>' + interest.icon + '</span>' +
+                                '<span>' + getText(interest.name, langue) + '</span>' +
+                            '</div>'
+                        ).join('') +
+                    '</div>' +
+                '</div>' +
+            '</div>'; // FERMETURE MAIN-CONTENT
         }
         
         // Fonction pour créer le sélecteur de langue
@@ -288,6 +319,49 @@
                 '<a class="lang-button ' + (langue === 'en-GB' ? 'active' : '') + '" href="?lang=en-GB">🇬🇧 EN</a>' +
                 '<a class="lang-button ' + (langue === 'zh-CN' ? 'active' : '') + '" href="?lang=zh-CN">🇨🇳 中文</a>' +
             '</div>';
+        }
+        
+        // Fonction pour mettre à jour la langue de la vidéo
+        function updateVideoLanguage() {
+            const currentLang = determinerLangue();
+            const config = videoConfig[currentLang];
+            
+            if (!config) {
+                console.warn('Configuration vidéo non trouvée pour la langue:', currentLang);
+                return;
+            }
+            
+            const videoElement = document.getElementById('youtube-video');
+            const descriptionElement = document.getElementById('video-description');
+            const noteElement = document.getElementById('video-note');
+            
+            if (videoElement) {
+                videoElement.style.opacity = '0.7';
+                videoElement.style.transition = 'opacity 0.3s ease';
+                
+                setTimeout(() => {
+                    videoElement.src = config.url;
+                    videoElement.title = config.title;
+                    
+                    setTimeout(() => {
+                        videoElement.style.opacity = '1';
+                    }, 300);
+                }, 200);
+            }
+            
+            if (descriptionElement) {
+                descriptionElement.innerHTML = config.description;
+            }
+            
+            if (noteElement) {
+                noteElement.textContent = config.note;
+                noteElement.style.fontStyle = 'italic';
+                noteElement.style.fontSize = '12px';
+                noteElement.style.color = '#666';
+                noteElement.style.marginTop = '10px';
+            }
+            
+            console.log('✅ Vidéo mise à jour:', currentLang);
         }
         
         // Fonction pour afficher le CV
@@ -398,109 +472,6 @@
             
             await afficherCV(langueChoisie);
         });
-
-        const videoConfig = {
-            'fr-FR': {
-                title: 'Vidéo d\'un animal',
-                description: 'Cette vidéo présente un animal dans son habitat naturel. Cette vidéo a été réalisée par "Voyages du bout du monde", elle est intégrée à ce site dans le cadre d\'un projet universitaire.',
-                // Interface YouTube en français + sous-titres français si disponibles
-                url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=fr&cc_lang_pref=fr&cc_load_policy=1&rel=0&modestbranding=1&iv_load_policy=3',
-                indicator: 'FR 🇫🇷',
-                note: 'Audio original avec interface en français'
-            },
-            'en-GB': {
-                title: 'Animal Video',
-                description: 'This video presents an animal in its natural habitat. This video was made by "Voyages du bout du monde", it is integrated into this site as part of a university project.',
-                // Interface YouTube en anglais + sous-titres anglais si disponibles
-                url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=en&cc_lang_pref=en&cc_load_policy=1&rel=0&modestbranding=1&iv_load_policy=3',
-                indicator: 'EN 🇬🇧',
-                note: 'Original audio with English interface'
-            },
-            'zh-CN': {
-                title: '动物视频',
-                description: '这个视频展示了一个动物在其自然栖息地。这个视频是由"Voyages du bout du monde"制作的，作为大学项目的一部分被整合到这个网站中。',
-                // Interface YouTube en chinois + FORCER les sous-titres
-                url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=zh-CN&cc_lang_pref=zh-Hans&cc_load_policy=1&rel=0&modestbranding=1&iv_load_policy=3',
-                indicator: '中文 🇨🇳',
-                note: '原始音频配中文字幕 (Original audio with Chinese subtitles)'
-            }
-        };
-
-        // Fonction pour mettre à jour la langue de la vidéo
-        function updateVideoLanguage() {
-            const currentLang = determinerLangue();
-            const config = videoConfig[currentLang];
-            
-            if (!config) {
-                console.warn('Configuration vidéo non trouvée pour la langue:', currentLang);
-                return;
-            }
-            
-            const videoElement = document.getElementById('youtube-video');
-            const descriptionElement = document.getElementById('video-description');
-            const noteElement = document.getElementById('video-note');
-            
-            if (videoElement) {
-                // Animation de transition
-                videoElement.style.opacity = '0.7';
-                videoElement.style.transition = 'opacity 0.3s ease';
-                
-                setTimeout(() => {
-                    videoElement.src = config.url;
-                    videoElement.title = config.title;
-                    
-                    // Restaurer l'opacité
-                    setTimeout(() => {
-                        videoElement.style.opacity = '1';
-                    }, 300);
-                }, 200);
-            }
-            
-            if (descriptionElement) {
-                descriptionElement.innerHTML = config.description;
-            }
-            
-            // Ajouter une note explicative sur la langue
-            if (noteElement) {
-                noteElement.textContent = config.note;
-                noteElement.style.fontStyle = 'italic';
-                noteElement.style.fontSize = '12px';
-                noteElement.style.color = '#666';
-                noteElement.style.marginTop = '10px';
-            }
-            
-            console.log('✅ Vidéo mise à jour:', currentLang);
-            console.log('📝 Note:', config.note);
-        }
-
-        function creerSectionVideoAvecNote(data, langue) {
-            if (!data.video) return '';
-            
-            const config = videoConfig[langue];
-            const videoTitle = getText(data.video.title, langue);
-            const videoDescription = getText(data.video.description, langue);
-            const videoUrl = getText(data.video.urls, langue);
-            
-            const videoSectionTitle = langue === 'zh-CN' ? '视频展示' : 
-                                    langue === 'en-GB' ? 'Video Showcase' : 
-                                    'Présentation Vidéo';
-            
-            return `<div class="section">
-                <h3 class="section-title">${videoSectionTitle}</h3>
-                <div class="video-section">
-                    <div class="video-container">
-                        <iframe id="youtube-video" 
-                            src="${videoUrl}" 
-                            title="${videoTitle}" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                    <div class="video-description" id="video-description">${videoDescription}</div>
-                    <div class="video-note" id="video-note">${config ? config.note : ''}</div>
-                </div>
-            </div>`;
-        }
     </script>
 </body>
 </html>
