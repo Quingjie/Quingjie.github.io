@@ -17,6 +17,536 @@
 <body>
     <div class="loading">
         <h1>Chargement du CV multilingue...</h1>
+        <p>Chargement des données depuis cv-data.json...</p>
+    </div>
+
+    <script>
+        let cvData = null;
+        
+        // Fonction pour déterminer la langue selon l'URL
+        function determinerLangue() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const langParam = urlParams.get('lang');
+            
+            if (langParam === 'zh-CN') {
+                return 'zh-CN';
+            } else if (langParam === 'en-GB') {
+                return 'en-GB';
+            }
+            
+            return 'fr-FR'; // Défaut
+        }
+        
+        // Fonction utilitaire pour récupérer le texte dans la bonne langue
+        function getText(obj, langue) {
+            if (!obj) return '';
+            if (typeof obj === 'string') return obj;
+            return obj[langue] || obj['fr-FR'] || Object.values(obj)[0] || '';
+        }
+        
+        // Fonction pour charger les données JSON
+        async function chargerDonnees() {
+            try {
+                console.log('📄 Chargement cv-data.json...');
+                const response = await fetch('cv-data.json');
+                if (!response.ok) {
+                    throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+                }
+                
+                cvData = await response.json();
+                console.log('✅ Données chargées avec succès');
+                return cvData;
+                
+            } catch (error) {
+                console.error('❌ Erreur chargement données:', error);
+                afficherErreur('Impossible de charger cv-data.json', error.message);
+                return null;
+            }
+        }
+        
+        // Fonction pour créer la sidebar
+        function creerSidebar(data, langue) {
+            const softSkills = data.skills.technical.filter(skill => skill.category === 'soft');
+            const hardSkills = data.skills.technical.filter(skill => skill.category !== 'soft');
+            const complementaryWork = data.workExperience.filter(exp => exp.type === 'complementary');
+            
+            const contactTitle = langue === 'zh-CN' ? '联系方式' : 'Contact';
+            const softSkillsTitle = langue === 'zh-CN' ? '软技能' : 'Soft Skills';
+            const hardSkillsTitle = langue === 'zh-CN' ? '硬技能' : 'Hard Skills';
+            const languagesTitle = langue === 'zh-CN' ? '语言' : langue === 'en-GB' ? 'Languages' : 'Langues';
+            const complementaryTitle = langue === 'zh-CN' ? '补充经验' : langue === 'en-GB' ? 'Complementary Experience' : 'Expériences Complémentaires';
+            
+            return '<div class="sidebar">' +
+                '<h3>' + contactTitle + '</h3>' +
+                '<ul>' +
+                    data.contacts.map(contact => 
+                        '<li><strong>' + getText(contact.label, langue) + ':</strong> ' + contact.value + '</li>'
+                    ).join('') +
+                '</ul>' +
+                
+                '<h3>' + softSkillsTitle + '</h3>' +
+                '<ul>' +
+                    softSkills.map(skill => 
+                        '<li>' + getText(skill.name, langue) + '</li>'
+                    ).join('') +
+                '</ul>' +
+                
+                '<h3>' + hardSkillsTitle + '</h3>' +
+                '<ul>' +
+                    hardSkills.map(skill => 
+                        '<li><strong>' + getText(skill.name, langue) + '</strong>' + 
+                        (skill.description ? ': ' + getText(skill.description, langue) : '') + '</li>'
+                    ).join('') +
+                '</ul>' +
+                
+                '<h3>' + languagesTitle + '</h3>' +
+                '<ul>' +
+                    data.skills.languages.map(lang => 
+                        '<li><strong>' + getText(lang.name, langue) + '</strong> - ' + getText(lang.levelText, langue) + '</li>'
+                    ).join('') +
+                '</ul>' +
+                
+                '<h3>' + complementaryTitle + '</h3>' +
+                '<ul>' +
+                    complementaryWork.map(exp => {
+                        const sinceText = langue === 'zh-CN' ? '自' : langue === 'en-GB' ? 'since' : 'depuis';
+                        const toText = langue === 'zh-CN' ? '至' : langue === 'en-GB' ? 'to' : 'à';
+                        const period = exp.period.end ? 
+                            sinceText + ' ' + exp.period.start + ' ' + toText + ' ' + exp.period.end : 
+                            sinceText + ' ' + exp.period.start;
+                        
+                        return '<li>' +
+                            '<strong>' + getText(exp.position, langue) + '</strong><br>' +
+                            '(' + period + ')<br>' +
+                            (exp.tasks ? exp.tasks.map(task => getText(task, langue)).join('<br>') : '') +
+                        '</li>';
+                    }).join('') +
+                '</ul>' +
+            '</div>';
+        }
+        
+        // Fonction pour créer le contenu principal
+        function creerContenuPrincipal(data, langue) {
+            const educationTitle = langue === 'zh-CN' ? '教育经历' : langue === 'en-GB' ? 'Education' : 'Formation';
+            const workTitle = langue === 'zh-CN' ? '工作经验' : langue === 'en-GB' ? 'Work Experience' : 'Expériences Professionnelles';
+            const projectsTitle = langue === 'zh-CN' ? '计算机项目' : langue === 'en-GB' ? 'Computer Projects' : 'Projets Informatiques';
+            const interestsTitle = langue === 'zh-CN' ? '兴趣爱好' : langue === 'en-GB' ? 'Interests' : 'Centres d\'intérêt';
+            
+            const gamesTitle = langue === 'zh-CN' ? '游戏' : langue === 'en-GB' ? 'GAMES' : 'JEUX';
+            const algorithmTitle = langue === 'zh-CN' ? '算法' : langue === 'en-GB' ? 'ALGORITHM' : 'ALGORITHME';
+            
+            const gameProjects = data.projects.filter(proj => 
+                getText(proj.name, langue).toLowerCase().includes('puissance') || 
+                getText(proj.name, langue).toLowerCase().includes('pac') ||
+                getText(proj.name, langue).toLowerCase().includes('connect') ||
+                getText(proj.name, langue).includes('吃豆')
+            );
+            
+            const algorithmProjects = data.projects.filter(proj => 
+                !getText(proj.name, langue).toLowerCase().includes('puissance') && 
+                !getText(proj.name, langue).toLowerCase().includes('pac') &&
+                !getText(proj.name, langue).toLowerCase().includes('connect') &&
+                !getText(proj.name, langue).includes('吃豆')
+            );
+            
+            const professionalWork = data.workExperience.filter(exp => exp.type === 'professional');
+            
+            return '<div class="main-content">' +
+                '<div class="header">' +
+                    '<h1>' + data.identity.firstName + ' ' + data.identity.lastName + '</h1>' +
+                    '<h2>' + getText(data.identity.title, langue) + '</h2>' +
+                    '<div>' + getText(data.identity.presentation, langue) + '</div>' +
+                '</div>' +
+                
+                '<div class="section">' +
+                    '<h3 class="section-title">' + educationTitle + '</h3>' +
+                    data.education.map(edu => {
+                        const sinceText = langue === 'zh-CN' ? '自9月' : langue === 'en-GB' ? 'Since Sept' : 'Depuis sept';
+                        const period = edu.period.end ? 
+                            edu.period.start + '/' + edu.period.end : 
+                            sinceText + ' ' + edu.period.start;
+                        
+                        return '<div class="item">' +
+                            '<div class="item-title">' + getText(edu.degree, langue) + '</div>' +
+                            '<div class="item-period">' + period + '</div>' +
+                            '<div class="item-subtitle">' +
+                                '<strong>' + getText(edu.institution, langue) + '</strong>, ' + getText(edu.location, langue) +
+                            '</div>' +
+                            (edu.options ? '<div style="margin-top: 10px;"><strong>Options : </strong>' + getText(edu.options, langue) + '</div>' : '') +
+                        '</div>';
+                    }).join('') +
+                '</div>' +
+                
+                '<div class="section">' +
+                    '<h3 class="section-title">' + workTitle + '</h3>' +
+                    professionalWork.map(exp => {
+                        const sinceText = langue === 'zh-CN' ? '自9月' : langue === 'en-GB' ? 'since Sept' : 'depuis sept';
+                        const period = exp.period.end ? 
+                            exp.period.start + ' - ' + exp.period.end : 
+                            sinceText + ' ' + exp.period.start;
+                        
+                        return '<div class="item">' +
+                            '<div class="item-title">' + getText(exp.position, langue) + '</div>' +
+                            '<div class="item-period"><strong>' + period + '</strong></div>' +
+                            '<div class="item-subtitle">' +
+                                '<strong>' + getText(exp.company, langue) + '</strong>, ' + getText(exp.location, langue) +
+                            '</div>' +
+                            (exp.tasks ? 
+                                '<ul>' + exp.tasks.map(task => '<li>' + getText(task, langue) + '</li>').join('') + '</ul>' 
+                                : '') +
+                        '</div>';
+                    }).join('') +
+                '</div>' +
+                
+                '<div class="section">' +
+                    '<h3 class="section-title">' + projectsTitle + '</h3>' +
+                    
+                    '<div class="project-category">' + gamesTitle + '</div>' +
+                    '<div class="projects-grid">' +
+                        gameProjects.map(proj => 
+                            '<div class="project-item">' +
+                                '<div style="font-weight: bold; color: #2c3e50; margin-bottom: 10px;">' +
+                                    getText(proj.name, langue) +
+                                '</div>' +
+                                '<div style="margin-bottom: 10px;">' +
+                                    getText(proj.description, langue) +
+                                '</div>' +
+                                '<div style="font-size: 12px; color: #7f8c8d;">' +
+                                    '<strong>Technologies : </strong>' + getText(proj.technologies, langue) +
+                                '</div>' +
+                            '</div>'
+                        ).join('') +
+                    '</div>' +
+                    
+                    '<div class="project-category">' + algorithmTitle + '</div>' +
+                    '<div class="projects-grid">' +
+                        algorithmProjects.map(proj => 
+                            '<div class="project-item">' +
+                                '<div style="font-weight: bold; color: #2c3e50; margin-bottom: 10px;">' +
+                                    getText(proj.name, langue) +
+                                '</div>' +
+                                '<div style="margin-bottom: 10px;">' +
+                                    getText(proj.description, langue) +
+                                '</div>' +
+                                '<div style="font-size: 12px; color: #7f8c8d;">' +
+                                    '<strong>Technologies : </strong>' + getText(proj.technologies, langue) +
+                                '</div>' +
+                            '</div>'
+                        ).join('') +
+                    '</div>' +
+                '</div>' +
+                
+                '<div class="section">' +
+                    '<h3 class="section-title">' + interestsTitle + '</h3>' +
+                    '<div class="centers-container">' +
+                        data.interests.map(interest => 
+                            '<div class="center-item">' +
+                                '<span>' + interest.icon + '</span>' +
+                                '<span>' + getText(interest.name, langue) + '</span>' +
+                            '</div>'
+                        ).join('') +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+        }
+        
+        // Fonction pour créer le sélecteur de langue
+        function creerSelecteurLangue(langue) {
+            return '<div class="lang-selector">' +
+                '<a class="lang-button ' + (langue === 'fr-FR' ? 'active' : '') + '" href="?lang=fr-FR">🇫🇷 FR</a>' +
+                '<a class="lang-button ' + (langue === 'en-GB' ? 'active' : '') + '" href="?lang=en-GB">🇬🇧 EN</a>' +
+                '<a class="lang-button ' + (langue === 'zh-CN' ? 'active' : '') + '" href="?lang=zh-CN">🇨🇳 中文</a>' +
+            '</div>';
+        }
+        
+        // Fonction pour afficher le CV
+        async function afficherCV(langue) {
+            if (!cvData) {
+                cvData = await chargerDonnees();
+                if (!cvData) return;
+            }
+            
+            try {
+                const html = 
+                    creerSelecteurLangue(langue) +
+                    creerSidebar(cvData, langue) +
+                    creerContenuPrincipal(cvData, langue);
+                
+                document.body.innerHTML = html;
+                
+                // Attacher les événements aux boutons de langue
+                attacherEvenementsLangue();
+                
+                // Mettre à jour le titre de la page
+                document.title = `${getText(cvData.identity.title, langue)} - ${cvData.identity.firstName} ${cvData.identity.lastName}`;
+                
+                console.log('✅ CV affiché en', langue);
+                
+            } catch (error) {
+                console.error('❌ Erreur génération CV:', error);
+                afficherErreur('Erreur lors de la génération du CV', error.message);
+            }
+        }
+        
+        // Fonction pour attacher les événements aux boutons de langue
+        function attacherEvenementsLangue() {
+            const boutons = document.querySelectorAll('.lang-button');
+            boutons.forEach(bouton => {
+                bouton.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    
+                    const href = bouton.getAttribute('href');
+                    const urlParams = new URLSearchParams(href.split('?')[1]);
+                    const nouvelleLangue = urlParams.get('lang');
+                    
+                    if (nouvelleLangue) {
+                        // Sauvegarder la position de scroll
+                        const scrollPosition = window.pageYOffset;
+                        
+                        // Mettre à jour l'URL sans recharger la page
+                        const newUrl = new URL(window.location);
+                        newUrl.searchParams.set('lang', nouvelleLangue);
+                        window.history.pushState({}, '', newUrl);
+                        
+                        // Afficher le nouveau CV
+                        await afficherCV(nouvelleLangue);
+                        
+                        // Restaurer la position de scroll
+                        setTimeout(() => {
+                            window.scrollTo(0, scrollPosition);
+                        }, 50);
+                    }
+                });
+            });
+        }
+        
+        // Fonction pour afficher une erreur
+        function afficherErreur(titre, details) {
+            document.body.innerHTML = 
+                '<div style="padding: 40px; text-align: center; font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto;">' +
+                    '<h1 style="color: #e74c3c;">❌ ' + titre + '</h1>' +
+                    '<div style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #e74c3c;">' +
+                        '<strong>Détails :</strong> ' + details +
+                    '</div>' +
+                    
+                    '<div style="background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #ffc107;">' +
+                        '<h3 style="color: #856404; margin-top: 0;">Solutions :</h3>' +
+                        '<ul style="text-align: left; color: #856404;">' +
+                            '<li>Vérifiez que le fichier <code>cv-data.json</code> existe</li>' +
+                            '<li>Vérifiez que le fichier <code>cv.css</code> existe</li>' +
+                            '<li>Ouvrez la console développeur (F12) pour plus de détails</li>' +
+                            '<li>Assurez-vous que tous les fichiers sont bien committés sur GitHub</li>' +
+                        '</ul>' +
+                    '</div>' +
+                    
+                    '<button onclick="location.reload()" style="padding: 12px 24px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">🔄 Recharger</button>' +
+                    
+                    '<div style="margin-top: 20px; font-size: 12px; color: #6c757d;">' +
+                        '<strong>URL actuelle :</strong> ' + window.location.href +
+                    '</div>' +
+                '</div>';
+        }
+        
+        // Gestion du bouton retour/avant du navigateur
+        window.addEventListener('popstate', async () => {
+            const langue = determinerLangue();
+            await afficherCV(langue);
+        });
+        
+        // Démarrage au chargement de la page
+        document.addEventListener('DOMContentLoaded', async () => {
+            const langueChoisie = determinerLangue();
+            
+            console.log('🌐 Langue déterminée:', langueChoisie);
+            console.log('🔗 URL actuelle:', window.location.href);
+            
+            await afficherCV(langueChoisie);
+        });
+    </script>
+</body>
+</html>
+                            ${data.projects.filter(proj => !t(proj.name).includes('Puissance') && !t(proj.name).includes('Pac Man') && !t(proj.name).includes('Connect') && !t(proj.name).includes('吃豆')).map(proj => `
+                                <div class="project-item" typeof="schema:CreativeWork">
+                                    <div style="font-weight: bold; color: #2c3e50; margin-bottom: 10px;" property="schema:name">
+                                        ${t(proj.name)}
+                                    </div>
+                                    <div property="schema:description" style="margin-bottom: 10px;">
+                                        ${t(proj.description)}
+                                    </div>
+                                    <div style="font-size: 12px; color: #7f8c8d;">
+                                        <strong>Technologies : </strong>${t(proj.technologies)}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <!-- Centres d'intérêt -->
+                    <div class="section">
+                        <h3 class="section-title">${langue === 'fr-FR' ? 'Centres d\'intérêt' : langue === 'en-GB' ? 'Interests' : '兴趣爱好'}</h3>
+                        <div class="centers-container">
+                            ${data.interests.map(interest => `
+                                <div class="center-item">
+                                    <span>${interest.icon}</span>
+                                    <span>${t(interest.name)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Structured Data JSON-LD -->
+                <script type="application/ld+json">
+                {
+                    "@context": "https://schema.org",
+                    "@type": "Person",
+                    "name": "${data.identity.firstName} ${data.identity.lastName}",
+                    "jobTitle": "${t(data.identity.title)}",
+                    "description": "${t(data.identity.presentation)}",
+                    "birthDate": "${data.identity.birthDate}",
+                    "nationality": "${t(data.identity.nationality)}",
+                    "email": "${data.contacts.find(c => c.type === 'email')?.value}",
+                    "telephone": "${data.contacts.find(c => c.type === 'telephone')?.value}",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "${data.contacts.find(c => c.type === 'address')?.value}"
+                    },
+                    "sameAs": [
+                        "https://linkedin.com/in/${data.contacts.find(c => c.type === 'linkedin')?.value.replace('@', '')}"
+                    ],
+                    "knowsLanguage": [
+                        ${data.skills.languages.map(lang => `{
+                            "@type": "Language",
+                            "name": "${t(lang.name)}",
+                            "proficiencyLevel": "${t(lang.levelText)}"
+                        }`).join(',')}
+                    ]
+                }
+                </script>
+            `;
+        }
+        
+        // Fonction pour afficher le CV
+        async function afficherCV(langue) {
+            if (!cvData) {
+                cvData = await chargerDonnees();
+                if (!cvData) return;
+            }
+            
+            try {
+                const html = genererCV(cvData, langue);
+                document.body.innerHTML = html;
+                
+                // Attacher les événements aux boutons de langue
+                attacherEvenementsLangue();
+                
+                // Mettre à jour le titre de la page
+                document.title = `${cvData.identity.title[langue]} - ${cvData.identity.firstName} ${cvData.identity.lastName}`;
+                
+                console.log('✅ CV affiché en', langue);
+                
+            } catch (error) {
+                console.error('❌ Erreur génération CV:', error);
+                afficherErreur('Erreur lors de la génération du CV', error.message);
+            }
+        }
+        
+        // Fonction pour attacher les événements aux boutons de langue
+        function attacherEvenementsLangue() {
+            const boutons = document.querySelectorAll('.lang-button');
+            boutons.forEach(bouton => {
+                bouton.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    
+                    const href = bouton.getAttribute('href');
+                    const urlParams = new URLSearchParams(href.split('?')[1]);
+                    const nouvelleLangue = urlParams.get('lang');
+                    
+                    if (nouvelleLangue) {
+                        // Mettre à jour l'URL sans recharger la page
+                        const newUrl = new URL(window.location);
+                        newUrl.searchParams.set('lang', nouvelleLangue);
+                        window.history.pushState({}, '', newUrl);
+                        
+                        // Sauvegarder la position de scroll
+                        const scrollPosition = window.pageYOffset;
+                        
+                        // Afficher le nouveau CV
+                        await afficherCV(nouvelleLangue);
+                        
+                        // Restaurer la position de scroll
+                        setTimeout(() => {
+                            window.scrollTo(0, scrollPosition);
+                        }, 50);
+                    }
+                });
+            });
+        }
+        
+        // Fonction pour afficher une erreur
+        function afficherErreur(titre, details) {
+            document.body.innerHTML = `
+                <div style="padding: 40px; text-align: center; font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto;">
+                    <h1 style="color: #e74c3c;">❌ ${titre}</h1>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #e74c3c;">
+                        <strong>Détails :</strong> ${details}
+                    </div>
+                    
+                    <div style="background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #ffc107;">
+                        <h3 style="color: #856404; margin-top: 0;">Solutions :</h3>
+                        <ul style="text-align: left; color: #856404;">
+                            <li>Vérifiez que le fichier <code>cv-data.json</code> existe</li>
+                            <li>Vérifiez que le fichier <code>cv.css</code> existe</li>
+                            <li>Ouvrez la console développeur (F12) pour plus de détails</li>
+                            <li>Assurez-vous que tous les fichiers sont bien committzs sur GitHub</li>
+                        </ul>
+                    </div>
+                    
+                    <button onclick="location.reload()" style="padding: 12px 24px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">🔄 Recharger</button>
+                    
+                    <div style="margin-top: 20px; font-size: 12px; color: #6c757d;">
+                        <strong>URL actuelle :</strong> ${window.location.href}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Gestion du bouton retour/avant du navigateur
+        window.addEventListener('popstate', async () => {
+            const langue = determinerLangue();
+            await afficherCV(langue);
+        });
+        
+        // Démarrage au chargement de la page
+        document.addEventListener('DOMContentLoaded', async () => {
+            const langueChoisie = determinerLangue();
+            
+            console.log('🌐 Langue déterminée:', langueChoisie);
+            console.log('🔗 URL actuelle:', window.location.href);
+            
+            await afficherCV(langueChoisie);
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Multilingue - Katell GOUZERH</title>
+    
+    <!-- CSS centralisé -->
+    <link rel="stylesheet" href="cv.css">
+    
+    <!-- Liens vers autres versions linguistiques pour le SEO -->
+    <link rel="alternate" hreflang="fr-FR" href="?lang=fr-FR">
+    <link rel="alternate" hreflang="en-GB" href="?lang=en-GB">
+    <link rel="alternate" hreflang="zh-CN" href="?lang=zh-CN">
+    <link rel="alternate" hreflang="x-default" href="/">
+</head>
+<body>
+    <div class="loading">
+        <h1>Chargement du CV multilingue...</h1>
         <p>Chargement du contenu dans la langue appropriée...</p>
     </div>
 
