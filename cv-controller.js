@@ -1,8 +1,3 @@
-/**
- * Contrôleur JavaScript pour CV multilingue - VERSION AMÉLIORÉE
- * Avec gestion fluide de la navigation et position de scroll
- */
-
 class CVMultilingueComplete {
     constructor() {
         this.languesDisponibles = ['fr-FR', 'en-GB', 'zh-CN'];
@@ -96,48 +91,161 @@ class CVMultilingueComplete {
     }
 
     /**
-     * Sauvegarde la position actuelle de scroll et l'ancre
+     * Sauvegarde la position actuelle de scroll et l'ancre avec précision
      */
     sauvegarderPosition() {
+        // Position de scroll précise
         this.scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
         this.currentAnchor = window.location.hash;
         
-        // Sauvegarder aussi dans sessionStorage pour persistance
-        sessionStorage.setItem('cv_scroll_position', this.scrollPosition.toString());
-        sessionStorage.setItem('cv_current_anchor', this.currentAnchor);
+        // Identifier l'élément visible le plus proche pour ancrage intelligent
+        const visibleElement = this.trouverElementVisible();
         
-        console.log('📍 Position sauvegardée:', this.scrollPosition, this.currentAnchor);
+        // Sauvegarder toutes les informations de position
+        const positionData = {
+            scrollTop: this.scrollPosition,
+            anchor: this.currentAnchor,
+            visibleElement: visibleElement,
+            timestamp: Date.now(),
+            viewportHeight: window.innerHeight,
+            documentHeight: document.documentElement.scrollHeight
+        };
+        
+        sessionStorage.setItem('cv_position_data', JSON.stringify(positionData));
+        
+        console.log('📍 Position sauvegardée complète:', positionData);
     }
 
     /**
-     * Restaure la position de scroll après changement de langue
+     * Trouve l'élément le plus visible à l'écran pour un ancrage intelligent
+     */
+    trouverElementVisible() {
+        const sections = document.querySelectorAll('.section');
+        const viewportTop = window.pageYOffset;
+        const viewportBottom = viewportTop + window.innerHeight;
+        const viewportMiddle = viewportTop + (window.innerHeight / 2);
+        
+        let bestMatch = null;
+        let bestDistance = Infinity;
+        
+        sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            const elementTop = rect.top + viewportTop;
+            const elementBottom = elementTop + rect.height;
+            
+            // L'élément est-il visible ?
+            if (elementBottom > viewportTop && elementTop < viewportBottom) {
+                // Distance au milieu de la viewport
+                const distance = Math.abs(elementTop - viewportMiddle);
+                
+                if (distance < bestDistance) {
+                    bestDistance = distance;
+                    bestMatch = {
+                        id: section.id || this.genererIdSection(section),
+                        offsetFromTop: viewportTop - elementTop,
+                        title: section.querySelector('.section-title')?.textContent || 'Section',
+                        className: section.className
+                    };
+                }
+            }
+        });
+        
+        return bestMatch;
+    }
+
+    /**
+     * Génère un ID pour une section qui n'en a pas
+     */
+    genererIdSection(section) {
+        const title = section.querySelector('.section-title');
+        if (title) {
+            const id = title.textContent
+                .toLowerCase()
+                .replace(/[^a-z0-9]/g, '-')
+                .replace(/-+/g, '-')
+                .replace(/^-|-$/g, '');
+            section.id = id;
+            return id;
+        }
+        return `section-${Date.now()}`;
+    }
+
+    /**
+     * Restaure la position de scroll avec ancrage intelligent
      */
     restaurerPosition() {
-        const savedScroll = sessionStorage.getItem('cv_scroll_position');
-        const savedAnchor = sessionStorage.getItem('cv_current_anchor');
+        const savedData = sessionStorage.getItem('cv_position_data');
+        if (!savedData) return;
         
-        if (savedAnchor) {
-            // Attendre que le DOM soit chargé puis aller à l'ancre
+        try {
+            const positionData = JSON.parse(savedData);
+            console.log('🔄 Restauration de la position:', positionData);
+            
+            // Nettoyer immédiatement pour éviter les restaurations multiples
+            sessionStorage.removeItem('cv_position_data');
+            
+            // Attendre que le DOM soit complètement chargé
             setTimeout(() => {
-                const element = document.querySelector(savedAnchor);
-                if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                    // Nettoyer après utilisation
-                    sessionStorage.removeItem('cv_current_anchor');
-                    sessionStorage.removeItem('cv_scroll_position');
-                    return;
-                }
-            }, 300);
+                this.restaurerPositionAvecMethodes(positionData);
+            }, 100);
+            
+        } catch (error) {
+            console.warn('⚠️ Erreur restauration position:', error);
+            sessionStorage.removeItem('cv_position_data');
+        }
+    }
+
+    /**
+     * Restaure la position avec différentes méthodes selon la situation
+     */
+    restaurerPositionAvecMethodes(positionData) {
+        let positionRestauree = false;
+        
+        // Méthode 1: Ancre URL spécifique
+        if (positionData.anchor && positionData.anchor !== '') {
+            const element = document.querySelector(positionData.anchor);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                console.log('✅ Position restaurée via ancre URL:', positionData.anchor);
+                positionRestauree = true;
+            }
         }
         
-        if (savedScroll) {
-            setTimeout(() => {
+        // Méthode 2: Élément visible identifié
+        if (!positionRestauree && positionData.visibleElement) {
+            const element = document.getElementById(positionData.visibleElement.id);
+            if (element) {
+                const elementTop = element.offsetTop;
+                const scrollTarget = elementTop - positionData.visibleElement.offsetFromTop;
+                
                 window.scrollTo({
-                    top: parseInt(savedScroll),
+                    top: Math.max(0, scrollTarget),
                     behavior: 'smooth'
                 });
-                sessionStorage.removeItem('cv_scroll_position');
-            }, 300);
+                
+                console.log('✅ Position restaurée via élément visible:', positionData.visibleElement.title);
+                positionRestauree = true;
+            }
+        }
+        
+        // Méthode 3: Position de scroll exacte (fallback)
+        if (!positionRestauree && positionData.scrollTop > 0) {
+            // Ajuster pour les différences de hauteur de document
+            const ratioHauteur = document.documentElement.scrollHeight / positionData.documentHeight;
+            const scrollAjuste = positionData.scrollTop * ratioHauteur;
+            
+            window.scrollTo({
+                top: scrollAjuste,
+                behavior: 'smooth'
+            });
+            
+            console.log('✅ Position restaurée via scroll exact:', scrollAjuste);
+            positionRestauree = true;
+        }
+        
+        // Méthode 4: Pas de restauration nécessaire
+        if (!positionRestauree) {
+            console.log('ℹ️ Aucune position à restaurer (haut de page)');
         }
     }
 
@@ -160,27 +268,34 @@ class CVMultilingueComplete {
     }
 
     /**
-     * Change la langue via GET (PRIORITÉ 1) - Navigation fluide
+     * Change la langue via GET (PRIORITÉ 1) - Navigation fluide améliorée
      */
     changerLangueGet(nouvelleLangue) {
         if (!this.languesDisponibles.includes(nouvelleLangue)) return;
         
         console.log('🔗 Changement de langue via GET:', nouvelleLangue);
         
-        // Sauvegarder position actuelle
-        this.sauvegarderPosition();
-        
         // Si on est sur la même langue, ne rien faire
         if (nouvelleLangue === this.langueActuelle) {
+            console.log('ℹ️ Même langue, pas de changement nécessaire');
             return;
         }
         
+        // Sauvegarder position actuelle avec précision
+        this.sauvegarderPosition();
+        
+        // Animation de transition douce
+        document.body.style.transition = 'opacity 0.2s ease';
+        document.body.style.opacity = '0.8';
+        
         // Utiliser XSLT pour transformation à la volée
-        this.chargerCV(nouvelleLangue);
+        setTimeout(() => {
+            this.chargerCV(nouvelleLangue);
+        }, 100);
     }
 
     /**
-     * Charge le CV avec transformation XSLT - VERSION AMÉLIORÉE
+     * Charge le CV avec transformation XSLT - VERSION NAVIGATION FLUIDE
      */
     async chargerCV(nouvelleLangue = null) {
         const langue = nouvelleLangue || this.langueActuelle;
@@ -207,56 +322,48 @@ class CVMultilingueComplete {
             const resultDoc = xsltProcessor.transformToDocument(xmlDoc);
             const newHtml = new XMLSerializer().serializeToString(resultDoc);
             
-            // Animation de transition
-            if (nouvelleLangue) {
-                document.body.style.opacity = '0.7';
-                document.body.style.transition = 'opacity 0.2s ease';
-            }
+            // Remplacer le contenu avec préservation du scroll
+            const shouldRestorePosition = nouvelleLangue !== null;
+            
+            // Masquer l'écran de chargement s'il existe encore
+            this.masquerChargement();
             
             // Remplacer le contenu
             document.open();
             document.write(newHtml);
             document.close();
             
-            // Masquer l'écran de chargement une fois le CV affiché
-            const loadingElement = document.querySelector('.loading');
-            if (loadingElement) {
-                loadingElement.style.display = 'none';
-            }
-
-            // Afficher le contenu principal avec une transition
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                document.body.style.transition = 'opacity 0.3s ease';
-                document.body.style.opacity = '1';
-            }, 100);
-
             // Mettre à jour la langue actuelle
             this.langueActuelle = langue;
             this.sauvegarderLangue(langue);
+            
+            // Ajouter les ancres pour navigation interne
+            this.ajouterAncres();
             
             // Réattacher les événements
             this.attacherEvenements();
             
             // Restaurer la position si c'est un changement de langue
-            if (nouvelleLangue) {
-                this.restaurerPosition();
-                
-                // Restaurer l'opacité
+            if (shouldRestorePosition) {
+                // Restaurer la position après que le DOM soit stabilisé
                 setTimeout(() => {
-                    document.body.style.opacity = '1';
-                }, 100);
+                    this.restaurerPosition();
+                }, 50);
             }
             
-            // Ajouter les ancres pour navigation interne
-            this.ajouterAncres();
+            // Restaurer l'opacité
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.3s ease';
+                document.body.style.opacity = '1';
+            }, shouldRestorePosition ? 200 : 100);
+            
+            // Gérer les vidéos multilingues
+            this.gererVideoMultilingue();
             
         } catch (error) {
             console.error('❌ Erreur transformation XSLT:', error);
             this.afficherErreur();
         }
-
-        this.masquerChargement();
     }
 
     /**
@@ -353,15 +460,23 @@ class CVMultilingueComplete {
     }
 
     /**
-     * Attache les événements - VERSION AMÉLIORÉE
+     * Attache les événements - VERSION NAVIGATION FLUIDE
      */
     attacherEvenements() {
         setTimeout(() => {
-            // Événements pour liens de langue
+            // Événements pour liens de langue avec animation fluide
             const boutons = document.querySelectorAll('.lang-button');
             boutons.forEach(bouton => {
                 bouton.addEventListener('click', (e) => {
                     e.preventDefault();
+                    
+                    // Désactiver temporairement tous les boutons pour éviter les clics multiples
+                    boutons.forEach(b => b.style.pointerEvents = 'none');
+                    setTimeout(() => {
+                        const newButtons = document.querySelectorAll('.lang-button');
+                        newButtons.forEach(b => b.style.pointerEvents = 'auto');
+                    }, 1000);
+                    
                     const href = bouton.getAttribute('href');
                     
                     if (href.includes('cv_fr.html')) {
@@ -374,25 +489,70 @@ class CVMultilingueComplete {
                 });
             });
 
-            // Gestion du scroll pour sauvegarder la position
+            // Gestion intelligente du scroll pour sauvegarder la position
             let scrollTimeout;
+            let lastScrollPosition = 0;
+            
             window.addEventListener('scroll', () => {
                 clearTimeout(scrollTimeout);
+                
+                // Throttling pour performance
                 scrollTimeout = setTimeout(() => {
-                    this.scrollPosition = window.pageYOffset;
-                }, 100);
+                    const currentScroll = window.pageYOffset;
+                    
+                    // Ne sauvegarder que si le scroll a significativement changé
+                    if (Math.abs(currentScroll - lastScrollPosition) > 10) {
+                        this.scrollPosition = currentScroll;
+                        lastScrollPosition = currentScroll;
+                        
+                        // Sauvegarder périodiquement la position (pas à chaque scroll)
+                        clearTimeout(this.savePositionTimeout);
+                        this.savePositionTimeout = setTimeout(() => {
+                            const quickSave = {
+                                scrollTop: this.scrollPosition,
+                                timestamp: Date.now()
+                            };
+                            sessionStorage.setItem('cv_quick_position', JSON.stringify(quickSave));
+                        }, 500);
+                    }
+                }, 16); // ~60fps
             });
 
-            // Gestion des ancres
+            // Gestion des ancres avec historique
             window.addEventListener('hashchange', () => {
                 this.currentAnchor = window.location.hash;
+                console.log('🔗 Ancre changée:', this.currentAnchor);
             });
 
-            // Ajouter navigation par sections
+            // Gestion des touches clavier pour navigation
+            document.addEventListener('keydown', (e) => {
+                // Navigation par langues avec Alt+1,2,3
+                if (e.altKey && !e.ctrlKey && !e.shiftKey) {
+                    switch(e.key) {
+                        case '1':
+                            e.preventDefault();
+                            this.changerLangueGet('fr-FR');
+                            break;
+                        case '2':
+                            e.preventDefault();
+                            this.changerLangueGet('en-GB');
+                            break;
+                        case '3':
+                            e.preventDefault();
+                            this.changerLangueGet('zh-CN');
+                            break;
+                    }
+                }
+            });
+
+            // Ajouter navigation par sections améliorée
             this.ajouterNavigationSections();
             
             // Gérer les vidéos multilingues
             this.gererVideoMultilingue();
+            
+            // Indicateur visuel de langue active
+            this.mettreAJourIndicateurLangue();
             
             // Afficher debug si demandé
             if (window.location.search.includes('debug=1')) {
@@ -400,32 +560,30 @@ class CVMultilingueComplete {
             }
             
         }, 100);
+    }
 
-        // Fonction pour gérer le changement de langue avec animation
-        const gererChangementLangue = (nouvelleLangue) => {
-            // Animation de sortie
-            document.body.classList.add('changing-language');
-            
-            // Changer la langue après l'animation
-            setTimeout(() => {
-                this.changerLangueGet(nouvelleLangue);
-            }, 150);
-        };
-
-        // Modifier les event listeners des boutons de langue :
+    /**
+     * Met à jour l'indicateur visuel de la langue active
+     */
+    mettreAJourIndicateurLangue() {
+        const boutons = document.querySelectorAll('.lang-button');
         boutons.forEach(bouton => {
-            bouton.addEventListener('click', (e) => {
-                e.preventDefault();
-                const href = bouton.getAttribute('href');
-                
-                if (href.includes('cv_fr.html')) {
-                    gererChangementLangue('fr-FR');
-                } else if (href.includes('cv_en.html')) {
-                    gererChangementLangue('en-GB');
-                } else if (href.includes('cv_zh.html')) {
-                    gererChangementLangue('zh-CN');
-                }
-            });
+            bouton.classList.remove('active');
+            
+            const href = bouton.getAttribute('href');
+            let langueCorrespondante = '';
+            
+            if (href.includes('cv_fr.html') && this.langueActuelle === 'fr-FR') {
+                langueCorrespondante = 'fr-FR';
+            } else if (href.includes('cv_en.html') && this.langueActuelle === 'en-GB') {
+                langueCorrespondante = 'en-GB';
+            } else if (href.includes('cv_zh.html') && this.langueActuelle === 'zh-CN') {
+                langueCorrespondante = 'zh-CN';
+            }
+            
+            if (langueCorrespondante === this.langueActuelle) {
+                bouton.classList.add('active');
+            }
         });
     }
 
@@ -491,18 +649,6 @@ class CVMultilingueComplete {
         
         // Restaurer la position si on revient d'un changement de langue
         this.restaurerPosition();
-    }
-
-    //Cache l'écran de chargement et affiche le CV
-    masquerChargement() {
-        const loading = document.querySelector('.loading');
-        if (loading) {
-            loading.style.transition = 'opacity 0.3s ease';
-            loading.style.opacity = '0';
-            setTimeout(() => {
-                loading.style.display = 'none';
-            }, 300);
-        }
     }
 }
 
