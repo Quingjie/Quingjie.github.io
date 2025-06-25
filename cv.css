@@ -1176,7 +1176,6 @@ body {
 
 /* Animation de chargement pour la vidéo */
 .video-container::before {
-    content: '🎥 Chargement de la vidéo...';
     position: absolute;
     top: 50%;
     left: 50%;
