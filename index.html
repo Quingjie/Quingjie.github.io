@@ -256,8 +256,6 @@
                     '</div>' +
                 '</div>' +
 
-
-                
                 // NOUVELLE SECTION VIDÉO ICI
                 creerSectionVideo(data, langue) +
                 
@@ -405,26 +403,32 @@
             'fr-FR': {
                 title: 'Vidéo d\'un animal',
                 description: 'Cette vidéo présente un animal dans son habitat naturel. Cette vidéo a été réalisée par "Voyages du bout du monde", elle est intégrée à ce site dans le cadre d\'un projet universitaire.',
-                url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=fr&cc_lang_pref=fr&cc_load_policy=1&rel=0&modestbranding=1',
-                indicator: 'FR 🇫🇷'
+                // Interface YouTube en français + sous-titres français si disponibles
+                url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=fr&cc_lang_pref=fr&cc_load_policy=1&rel=0&modestbranding=1&iv_load_policy=3',
+                indicator: 'FR 🇫🇷',
+                note: 'Audio original avec interface en français'
             },
             'en-GB': {
                 title: 'Animal Video',
                 description: 'This video presents an animal in its natural habitat. This video was made by "Voyages du bout du monde", it is integrated into this site as part of a university project.',
-                url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=en&cc_lang_pref=en&cc_load_policy=1&rel=0&modestbranding=1',
-                indicator: 'EN 🇬🇧'
+                // Interface YouTube en anglais + sous-titres anglais si disponibles
+                url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=en&cc_lang_pref=en&cc_load_policy=1&rel=0&modestbranding=1&iv_load_policy=3',
+                indicator: 'EN 🇬🇧',
+                note: 'Original audio with English interface'
             },
             'zh-CN': {
                 title: '动物视频',
                 description: '这个视频展示了一个动物在其自然栖息地。这个视频是由"Voyages du bout du monde"制作的，作为大学项目的一部分被整合到这个网站中。',
-                url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=zh-CN&cc_lang_pref=zh-CN&cc_load_policy=1&rel=0&modestbranding=1',
-                indicator: '中文 🇨🇳'
+                // Interface YouTube en chinois + FORCER les sous-titres
+                url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=zh-CN&cc_lang_pref=zh-Hans&cc_load_policy=1&rel=0&modestbranding=1&iv_load_policy=3',
+                indicator: '中文 🇨🇳',
+                note: '原始音频配中文字幕 (Original audio with Chinese subtitles)'
             }
         };
 
         // Fonction pour mettre à jour la langue de la vidéo
         function updateVideoLanguage() {
-            const currentLang = determinerLangue(); // Utilise votre fonction existante
+            const currentLang = determinerLangue();
             const config = videoConfig[currentLang];
             
             if (!config) {
@@ -434,24 +438,68 @@
             
             const videoElement = document.getElementById('youtube-video');
             const descriptionElement = document.getElementById('video-description');
+            const noteElement = document.getElementById('video-note');
             
             if (videoElement) {
-                // FORCER le rechargement avec la nouvelle langue
-                videoElement.style.opacity = '0.5';
+                // Animation de transition
+                videoElement.style.opacity = '0.7';
                 videoElement.style.transition = 'opacity 0.3s ease';
                 
                 setTimeout(() => {
                     videoElement.src = config.url;
                     videoElement.title = config.title;
-                    videoElement.style.opacity = '1';
-                }, 150);
+                    
+                    // Restaurer l'opacité
+                    setTimeout(() => {
+                        videoElement.style.opacity = '1';
+                    }, 300);
+                }, 200);
             }
             
             if (descriptionElement) {
-                descriptionElement.textContent = config.description;
+                descriptionElement.innerHTML = config.description;
             }
             
-            console.log('✅ Vidéo mise à jour:', currentLang, config.url);
+            // Ajouter une note explicative sur la langue
+            if (noteElement) {
+                noteElement.textContent = config.note;
+                noteElement.style.fontStyle = 'italic';
+                noteElement.style.fontSize = '12px';
+                noteElement.style.color = '#666';
+                noteElement.style.marginTop = '10px';
+            }
+            
+            console.log('✅ Vidéo mise à jour:', currentLang);
+            console.log('📝 Note:', config.note);
+        }
+
+        function creerSectionVideoAvecNote(data, langue) {
+            if (!data.video) return '';
+            
+            const config = videoConfig[langue];
+            const videoTitle = getText(data.video.title, langue);
+            const videoDescription = getText(data.video.description, langue);
+            const videoUrl = getText(data.video.urls, langue);
+            
+            const videoSectionTitle = langue === 'zh-CN' ? '视频展示' : 
+                                    langue === 'en-GB' ? 'Video Showcase' : 
+                                    'Présentation Vidéo';
+            
+            return `<div class="section">
+                <h3 class="section-title">${videoSectionTitle}</h3>
+                <div class="video-section">
+                    <div class="video-container">
+                        <iframe id="youtube-video" 
+                            src="${videoUrl}" 
+                            title="${videoTitle}" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-description" id="video-description">${videoDescription}</div>
+                    <div class="video-note" id="video-note">${config ? config.note : ''}</div>
+                </div>
+            </div>`;
         }
     </script>
 </body>
