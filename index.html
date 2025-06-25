@@ -331,22 +331,28 @@
                 return;
             }
             
+            console.log('🎥 Mise à jour vidéo pour la langue:', currentLang);
+            
             const videoElement = document.getElementById('youtube-video');
             const descriptionElement = document.getElementById('video-description');
             const noteElement = document.getElementById('video-note');
             
             if (videoElement) {
-                videoElement.style.opacity = '0.7';
+                // Animation de transition
+                videoElement.style.opacity = '0.5';
                 videoElement.style.transition = 'opacity 0.3s ease';
                 
+                // Délai pour permettre la transition visuelle
                 setTimeout(() => {
+                    // Mettre à jour l'URL avec les paramètres de langue
                     videoElement.src = config.url;
                     videoElement.title = config.title;
                     
+                    // Restaurer l'opacité
                     setTimeout(() => {
                         videoElement.style.opacity = '1';
-                    }, 300);
-                }, 200);
+                    }, 500);
+                }, 300);
             }
             
             if (descriptionElement) {
@@ -361,9 +367,16 @@
                 noteElement.style.marginTop = '10px';
             }
             
-            console.log('✅ Vidéo mise à jour:', currentLang);
+            console.log('✅ Vidéo mise à jour pour:', currentLang, 'URL:', config.url);
         }
         
+        function initVideoLanguage() {
+            // Attendre que le DOM soit complètement chargé
+            setTimeout(() => {
+                updateVideoLanguage();
+            }, 1000);
+        }
+
         // Fonction pour afficher le CV
         async function afficherCV(langue) {
             if (!cvData) {
@@ -419,12 +432,12 @@
                         // IMPORTANT: Forcer la mise à jour de la vidéo après le changement de page
                         setTimeout(() => {
                             updateVideoLanguage();
-                        }, 300);
+                        }, 500); // Augmenter le délai pour s'assurer que la vidéo est bien chargée
                         
                         // Restaurer la position de scroll
                         setTimeout(() => {
                             window.scrollTo(0, scrollPosition);
-                        }, 50);
+                        }, 100);
                     }
                 });
             });
@@ -461,6 +474,11 @@
         window.addEventListener('popstate', async () => {
             const langue = determinerLangue();
             await afficherCV(langue);
+            
+            // Mettre à jour la vidéo après le changement
+            setTimeout(() => {
+                updateVideoLanguage();
+            }, 500);
         });
         
         // Démarrage au chargement de la page
@@ -471,6 +489,9 @@
             console.log('🔗 URL actuelle:', window.location.href);
             
             await afficherCV(langueChoisie);
+            
+            // Initialiser la vidéo dans la bonne langue
+            initVideoLanguage();
         });
     </script>
 </body>

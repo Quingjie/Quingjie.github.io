@@ -44,5 +44,74 @@
             </div>
         </div>
     </div>
+
+    <script>
+      // Configuration vidéo pour chaque langue
+      const videoConfig = {
+          'fr-FR': {
+              url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=fr&cc_lang_pref=fr&cc_load_policy=1&rel=0&modestbranding=1&iv_load_policy=3',
+              description: 'Cette vidéo présente un animal dans son habitat naturel. Cette vidéo a été réalisée par "Voyages du bout du monde", elle est intégrée à ce site dans le cadre d\'un projet universitaire.',
+              note: 'Audio original avec interface en français'
+          },
+          'en-GB': {
+              url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=en&cc_lang_pref=en&cc_load_policy=1&rel=0&modestbranding=1&iv_load_policy=3',
+              description: 'This video presents an animal in its natural habitat. This video was made by "Voyages du bout du monde", it is integrated into this site as part of a university project.',
+              note: 'Original audio with English interface'
+          },
+          'zh-CN': {
+              url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=zh-CN&cc_lang_pref=zh-Hans&cc_load_policy=1&rel=0&modestbranding=1&iv_load_policy=3',
+              description: '这个视频展示了一个动物在其自然栖息地。这个视频是由"Voyages du bout du monde"制作的，作为大学项目的一部分被整合到这个网站中。',
+              note: '原始音频配中文字幕 (Original audio with Chinese subtitles)'
+          }
+      };
+
+      // Déterminer la langue actuelle basée sur le fichier
+      function getCurrentLanguage() {
+          const fileName = window.location.pathname.split('/').pop();
+          if (fileName === 'cv_en.html') return 'en-GB';
+          if (fileName === 'cv_zh.html') return 'zh-CN';
+          return 'fr-FR'; // Par défaut
+      }
+
+      // Mettre à jour la vidéo selon la langue
+      function updateVideoForCurrentLanguage() {
+          const currentLang = getCurrentLanguage();
+          const config = videoConfig[currentLang];
+          
+          if (!config) return;
+          
+          const videoElement = document.getElementById('youtube-video');
+          const descriptionElement = document.getElementById('video-description');
+          
+          if (videoElement) {
+              videoElement.src = config.url;
+              videoElement.title = config.title || 'Vidéo';
+          }
+          
+          if (descriptionElement) {
+              descriptionElement.innerHTML = config.description;
+          }
+          
+          console.log('✅ Vidéo configurée pour:', currentLang);
+      }
+
+      // Attacher les événements aux boutons de langue
+      function attachLanguageEvents() {
+          const langButtons = document.querySelectorAll('.lang-button');
+          langButtons.forEach(button => {
+              button.addEventListener('click', (e) => {
+                  // Laisser le navigateur suivre le lien normalement
+                  // La vidéo sera mise à jour au chargement de la nouvelle page
+              });
+          });
+      }
+
+      // Initialiser au chargement de la page
+      document.addEventListener('DOMContentLoaded', () => {
+          updateVideoForCurrentLanguage();
+          attachLanguageEvents();
+      });
+      </script>
+
   </body>
 </html>
