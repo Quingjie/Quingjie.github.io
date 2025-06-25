@@ -1105,3 +1105,181 @@ body {
     display: none;
   }
 }
+
+/* ==============================================
+   STYLES POUR LA SECTION VIDÉO
+   ============================================== */
+
+.video-section {
+    margin: var(--spacing-xl) 0;
+    padding: var(--spacing-xl);
+    background: var(--color-bg-item);
+    border-radius: var(--border-radius-large);
+    border-left: 4px solid var(--color-accent);
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.video-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+/* Container responsive pour vidéo YouTube */
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* Ratio 16:9 pour YouTube */
+    margin: var(--spacing-lg) 0;
+    border-radius: var(--border-radius-large);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    background: #000; /* Fond noir pendant le chargement */
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: var(--border-radius-large);
+}
+
+.video-description {
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-top: var(--spacing-md);
+    text-align: center;
+    font-size: var(--font-size-normal);
+    line-height: 1.5;
+}
+
+/* Indicateur de langue pour la vidéo */
+.video-lang-indicator {
+    display: inline-block;
+    background: var(--color-accent);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: var(--font-size-small);
+    margin-left: var(--spacing-sm);
+    font-weight: normal;
+}
+
+/* Animation de chargement pour la vidéo */
+.video-container::before {
+    content: '🎥 Chargement de la vidéo...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: var(--font-size-medium);
+    z-index: 1;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out 1s forwards;
+}
+
+/* Responsive pour la vidéo */
+@media (max-width: 768px) {
+    .video-section {
+        padding: var(--spacing-lg);
+        margin: var(--spacing-lg) 0;
+    }
+    
+    .video-container {
+        margin: var(--spacing-md) 0;
+        border-radius: var(--border-radius);
+    }
+    
+    .video-container iframe {
+        border-radius: var(--border-radius);
+    }
+    
+    .video-description {
+        font-size: var(--font-size-small);
+    }
+}
+
+@media (max-width: 480px) {
+    .video-section {
+        padding: var(--spacing-md);
+    }
+    
+    .video-lang-indicator {
+        display: block;
+        margin: var(--spacing-xs) 0 0 0;
+        text-align: center;
+    }
+}
+
+/* Amélioration de l'accessibilité pour la vidéo */
+.video-container:focus-within {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Animation spéciale pour le changement de langue de la vidéo */
+.video-container.changing-language {
+    opacity: 0.7;
+    transform: scale(0.98);
+    transition: all 0.3s ease;
+}
+
+.video-container.language-changed {
+    animation: videoLanguageChange 0.5s ease;
+}
+
+@keyframes videoLanguageChange {
+    0% { opacity: 0.7; transform: scale(0.98); }
+    50% { opacity: 0.9; transform: scale(1.01); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* Style pour les erreurs de chargement vidéo */
+.video-error {
+    background: #f8d7da;
+    color: #721c24;
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    text-align: center;
+    border: 1px solid #f5c6cb;
+}
+
+.video-error::before {
+    content: '⚠️ ';
+    font-size: var(--font-size-large);
+}
+
+/* Print styles pour la vidéo */
+@media print {
+    .video-section {
+        background: white;
+        border: 1px solid #ccc;
+        box-shadow: none;
+    }
+    
+    .video-container {
+        background: #f5f5f5;
+        border: 1px solid #ddd;
+    }
+    
+    .video-container::after {
+        content: 'Vidéo disponible en ligne : https://youtube.com/watch?v=153WwPdJHCM';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 12px;
+        color: #666;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .video-container iframe {
+        display: none;
+    }
+}
