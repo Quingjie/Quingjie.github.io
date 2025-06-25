@@ -1,155 +1,174 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV Multilingue - Katell GOUZERH</title>
-    
-    <!-- Liens vers autres versions linguistiques pour le SEO -->
-    <link rel="alternate" hreflang="fr-FR" href="?lang=fr-FR">
-    <link rel="alternate" hreflang="en-GB" href="?lang=en-GB">
-    <link rel="alternate" hreflang="zh-CN" href="?lang=zh-CN">
-    <link rel="alternate" hreflang="x-default" href="/">
-    
-    <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            margin: 20px;
-            transition: opacity 0.3s ease;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CV Multilingue - Katell GOUZERH</title>
         
-        .loading { 
-            text-align: center; 
-            padding: 50px; 
-        }
+        <!-- Liens vers autres versions linguistiques pour le SEO -->
+        <link rel="alternate" hreflang="fr-FR" href="cv_fr.html">
+        <link rel="alternate" hreflang="en-GB" href="cv_en.html">
+        <link rel="alternate" hreflang="zh-CN" href="cv_zh.html">
+        <link rel="alternate" hreflang="x-default" href="cv_fr.html">
         
-        /* Améliorations pour la navigation fluide */
-        html {
-            scroll-behavior: smooth;
-        }
+        <!-- CSS centralisé -->
+        <link rel="stylesheet" href="cv.css">
         
-        /* Animation de transition lors du changement de langue */
-        body.changing-language {
-            opacity: 0.7;
-        }
+        <!-- Métadonnées pour le SEO -->
+        <meta name="description" content="CV multilingue de Katell GOUZERH - Étudiante ingénieur informatique à la recherche d'une alternance">
+        <meta name="keywords" content="CV, portfolio, ingénieur informatique, alternance, Katell GOUZERH">
+        <meta name="author" content="Katell GOUZERH">
         
-        /* Boutons de langue de secours */
-        .emergency-lang-selector {
-            margin-top: 20px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 5px;
-        }
-        
-        .emergency-lang-selector button {
-            margin: 5px;
-            padding: 8px 12px;
-            border: none;
-            background: #3498db;
-            color: white;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-        
-        .emergency-lang-selector button:hover {
-            background: #2980b9;
-        }
-        
-        /* Panel de debug simple */
-        .debug-info {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 8px;
-            border-radius: 3px;
-            font-size: 11px;
-            display: none;
-        }
-    </style>
-</head>
-<body>
-    <div class="loading">
-        <h1>Chargement du CV multilingue...</h1>
-        <p>Le contenu se charge depuis les données XML avec transformation XSLT.</p>
-        
-        <!-- Boutons de langue de secours en cas d'échec -->
-        <div class="emergency-lang-selector" id="emergency-selector" style="display: none;">
-            <p><strong>En cas de problème, choisissez votre langue :</strong></p>
-            <button onclick="forceLanguage('fr-FR')">🇫🇷 Français</button>
-            <button onclick="forceLanguage('en-GB')">🇬🇧 English</button>
-            <button onclick="forceLanguage('zh-CN')">🇨🇳 中文</button>
-            <br><br>
-            <button onclick="location.reload()" style="background: #e74c3c;">🔄 Recharger</button>
+        <!-- Open Graph -->
+        <meta property="og:title" content="CV Multilingue - Katell GOUZERH">
+        <meta property="og:description" content="Étudiante ingénieur informatique à la recherche d'une alternance">
+        <meta property="og:type" content="website">
+    </head>
+    <body>
+        <div class="loading">
+            <h1>Chargement du CV multilingue...</h1>
+            <p>Le contenu se charge depuis les données XML avec transformation XSLT.</p>
+            <p><small>Détermination de la langue en cours...</small></p>
+            
+            <!-- Boutons de langue de secours -->
+            <div class="emergency-lang-selector" id="emergency-selector" style="display: none;">
+                <p><strong>Choisissez votre langue :</strong></p>
+                <button onclick="goToLanguage('fr-FR')">🇫🇷 Français</button>
+                <button onclick="goToLanguage('en-GB')">🇬🇧 English</button>
+                <button onclick="goToLanguage('zh-CN')">🇨🇳 中文</button>
+                <br><br>
+                <p><strong>Ou accédez directement :</strong></p>
+                <button onclick="window.location.href='cv_fr.html'">📄 CV Français</button>
+                <button onclick="window.location.href='cv_en.html'">📄 CV English</button>
+                <button onclick="window.location.href='cv_zh.html'">📄 CV 中文</button>
+                <br><br>
+                <button onclick="location.reload()" style="background: #e74c3c;">🔄 Recharger</button>
+            </div>
         </div>
-    </div>
 
-    <!-- Panel de debug (visible si ?debug=1 dans l'URL) -->
-    <div class="debug-info" id="debug-info">
-        <div id="debug-content"></div>
-    </div>
+        <!-- Panel de debug -->
+        <div class="debug-info" id="debug-info">
+            <div id="debug-content"></div>
+        </div>
 
-    <script>
-        // Variables globales
-        let debugMode = new URLSearchParams(window.location.search).has('debug');
-        
-        // Afficher le debug si demandé
-        if (debugMode) {
-            document.getElementById('debug-info').style.display = 'block';
-            updateDebugInfo();
-        }
-        
-        // Fonction pour forcer une langue (boutons de secours)
-        function forceLanguage(lang) {
-            console.log('🚨 Langue forcée:', lang);
-            localStorage.setItem('cv_langue', lang);
+        <script>
+            // Variables globales
+            let debugMode = new URLSearchParams(window.location.search).has('debug');
+            let timeoutId;
             
-            // Essayer d'abord de recharger avec le paramètre GET
-            const url = new URL(window.location);
-            url.searchParams.set('lang', lang);
-            window.location.href = url.toString();
-        }
-        
-        // Fonction pour mettre à jour les infos de debug
-        function updateDebugInfo() {
-            if (!debugMode) return;
-            
-            const debugContent = document.getElementById('debug-content');
-            const info = {
-                'URL actuelle': window.location.href,
-                'Paramètre lang': new URLSearchParams(window.location.search).get('lang') || 'aucun',
-                'localStorage': localStorage.getItem('cv_langue') || 'vide',
-                'sessionStorage POST': sessionStorage.getItem('cv_langue_post') || 'vide',
-                'Navigator language': navigator.language,
-                'Accept-Language': navigator.languages.join(', ')
-            };
-            
-            debugContent.innerHTML = Object.entries(info)
-                .map(([key, value]) => `<strong>${key}:</strong> ${value}`)
-                .join('<br>');
-        }
-        
-        // Timeout de sécurité - afficher les boutons de secours après 8 secondes
-        setTimeout(() => {
-            const loading = document.querySelector('.loading h1');
-            const emergency = document.getElementById('emergency-selector');
-            
-            if (loading && loading.textContent.includes('Chargement')) {
-                console.warn('⚠️ Timeout de chargement - affichage des boutons de secours');
-                loading.textContent = 'Problème de chargement détecté';
-                emergency.style.display = 'block';
+            // Afficher le debug si demandé
+            if (debugMode) {
+                document.getElementById('debug-info').style.display = 'block';
+                updateDebugInfo();
             }
-        }, 8000);
-        
-        // Mettre à jour le debug toutes les 2 secondes si activé
-        if (debugMode) {
-            setInterval(updateDebugInfo, 2000);
-        }
-    </script>
-    
-    <!-- Chargement du contrôleur principal -->
-    <script src="cv-controller.js"></script>
-</body>
+            
+            // Fonction pour aller vers une langue spécifique
+            function goToLanguage(lang) {
+                console.log('🔗 Redirection vers langue:', lang);
+                
+                // Sauvegarder la préférence
+                localStorage.setItem('cv_langue', lang);
+                
+                // Fichiers statiques correspondants
+                const fichiers = {
+                    'fr-FR': 'cv_fr.html',
+                    'en-GB': 'cv_en.html',
+                    'zh-CN': 'cv_zh.html'
+                };
+                
+                const fichier = fichiers[lang];
+                if (fichier) {
+                    window.location.href = fichier;
+                } else {
+                    // Fallback vers le contrôleur avec paramètre
+                    const url = new URL(window.location);
+                    url.searchParams.set('lang', lang);
+                    window.location.href = url.toString();
+                }
+            }
+            
+            // Fonction pour déterminer la langue automatiquement
+            function determinerLangueAuto() {
+                // 1. Paramètre GET
+                const urlParams = new URLSearchParams(window.location.search);
+                const langueGet = urlParams.get('lang');
+                if (langueGet && ['fr-FR', 'en-GB', 'zh-CN'].includes(langueGet)) {
+                    return langueGet;
+                }
+                
+                // 2. localStorage
+                const langueSauvee = localStorage.getItem('cv_langue');
+                if (langueSauvee && ['fr-FR', 'en-GB', 'zh-CN'].includes(langueSauvee)) {
+                    return langueSauvee;
+                }
+                
+                // 3. Navigateur
+                const languesNav = navigator.languages || [navigator.language];
+                for (const langue of languesNav) {
+                    if (langue.startsWith('fr')) return 'fr-FR';
+                    if (langue.startsWith('en')) return 'en-GB';
+                    if (langue.startsWith('zh')) return 'zh-CN';
+                }
+                
+                // 4. Défaut
+                return 'fr-FR';
+            }
+            
+            // Fonction pour mettre à jour les infos de debug
+            function updateDebugInfo() {
+                if (!debugMode) return;
+                
+                const debugContent = document.getElementById('debug-content');
+                const info = {
+                    'URL': window.location.href,
+                    'Paramètre lang': new URLSearchParams(window.location.search).get('lang') || 'aucun',
+                    'localStorage': localStorage.getItem('cv_langue') || 'vide',
+                    'Navigator': navigator.language,
+                    'Accept-Language': navigator.languages.join(', '),
+                    'User-Agent': navigator.userAgent.substring(0, 50) + '...'
+                };
+                
+                debugContent.innerHTML = '<strong>🐛 Debug:</strong><br>' + 
+                    Object.entries(info)
+                        .map(([key, value]) => `<strong>${key}:</strong> ${value}`)
+                        .join('<br>');
+            }
+            
+            // Redirection automatique vers la langue appropriée
+            document.addEventListener('DOMContentLoaded', () => {
+                const langueChoisie = determinerLangueAuto();
+                console.log('🌐 Langue déterminée:', langueChoisie);
+                
+                // Sauvegarder le choix
+                localStorage.setItem('cv_langue', langueChoisie);
+                
+                // Redirection avec un court délai pour voir le chargement
+                setTimeout(() => {
+                    goToLanguage(langueChoisie);
+                }, 1000);
+            });
+            
+            // Timeout de sécurité - afficher les boutons de secours après 5 secondes
+            timeoutId = setTimeout(() => {
+                const loading = document.querySelector('.loading h1');
+                const emergency = document.getElementById('emergency-selector');
+                
+                if (loading && loading.textContent.includes('Chargement')) {
+                    console.warn('⚠️ Timeout de chargement - affichage des boutons de secours');
+                    loading.textContent = 'Problème de chargement détecté';
+                    emergency.style.display = 'block';
+                }
+            }, 5000);
+            
+            // Mettre à jour le debug si activé
+            if (debugMode) {
+                setInterval(updateDebugInfo, 2000);
+            }
+            
+            // Fonction pour forcer une langue (compatibilité)
+            function forceLanguage(lang) {
+                goToLanguage(lang);
+            }
+        </script>
+    </body>
 </html>

@@ -295,18 +295,88 @@ class CVMultilingueComplete {
     }
 
     /**
-     * Charge le CV avec transformation XSLT - VERSION NAVIGATION FLUIDE
+     * Charge le CV avec transformation XSLT - VERSION GITHUB PAGES COMPATIBLE
      */
     async chargerCV(nouvelleLangue = null) {
         const langue = nouvelleLangue || this.langueActuelle;
         console.log('📄 Chargement du CV en langue:', langue);
         
         try {
-            // Charger XML et XSLT
-            const [xmlResponse, xslResponse] = await Promise.all([
-                fetch('cv.xml'),
-                fetch('cv.xsl')
-            ]);
+            // MÉTHODE 1: Essayer d'abord les fichiers HTML statiques (pour GitHub Pages)
+            const fichiersStatiques = {
+                'fr-FR': 'cv_fr.html',
+                'en-GB': 'cv_en.html', 
+                'zh-CN': 'cv_zh.html'
+            };
+            
+            const fichierStatique = fichiersStatiques[langue];
+            
+            if (fichierStatique) {
+                try {
+                    console.log('🔄 Tentative chargement fichier statique:', fichierStatique);
+                    const response = await fetch(fichierStatique);
+                    
+                    if (response.ok) {
+                        const htmlContent = await response.text();
+                        console.log('✅ Fichier statique chargé:', fichierStatique);
+                        
+                        // Sauvegarder position si changement de langue
+                        const shouldRestorePosition = nouvelleLangue !== null;
+                        
+                        // Masquer l'écran de chargement
+                        this.masquerChargement();
+                        
+                        // Animation de transition
+                        if (shouldRestorePosition) {
+                            document.body.style.transition = 'opacity 0.2s ease';
+                            document.body.style.opacity = '0.8';
+                        }
+                        
+                        // Remplacer le contenu
+                        document.open();
+                        document.write(htmlContent);
+                        document.close();
+                        
+                        // Mettre à jour la langue actuelle
+                        this.langueActuelle = langue;
+                        this.sauvegarderLangue(langue);
+                        
+                        // Ajouter les ancres pour navigation interne
+                        this.ajouterAncres();
+                        
+                        // Réattacher les événements
+                        this.attacherEvenements();
+                        
+                        // Restaurer la position si c'est un changement de langue
+                        if (shouldRestorePosition) {
+                            setTimeout(() => {
+                                this.restaurerPosition();
+                            }, 50);
+                        }
+                        
+                        // Restaurer l'opacité
+                        setTimeout(() => {
+                            document.body.style.transition = 'opacity 0.3s ease';
+                            document.body.style.opacity = '1';
+                        }, shouldRestorePosition ? 200 : 100);
+                        
+                        return; // Succès avec fichier statique
+                    }
+                } catch (staticError) {
+                    console.warn('⚠️ Échec chargement fichier statique:', staticError.message);
+                }
+            }
+            
+            // MÉTHODE 2: Fallback vers transformation XSLT (pour serveur local)
+            console.log('🔄 Tentative transformation XSLT...');
+            
+            // Vérifier d'abord si les fichiers XML/XSL existent
+            const xmlResponse = await fetch('cv.xml');
+            const xslResponse = await fetch('cv.xsl');
+            
+            if (!xmlResponse.ok || !xslResponse.ok) {
+                throw new Error('Fichiers XML ou XSL introuvables');
+            }
 
             const xmlText = await xmlResponse.text();
             const xslText = await xslResponse.text();
@@ -314,18 +384,30 @@ class CVMultilingueComplete {
             const xmlDoc = new DOMParser().parseFromString(xmlText, 'text/xml');
             const xslDoc = new DOMParser().parseFromString(xslText, 'text/xml');
 
+            // Vérifier les erreurs de parsing
+            if (xmlDoc.querySelector('parsererror') || xslDoc.querySelector('parsererror')) {
+                throw new Error('Erreur de parsing XML/XSL');
+            }
+
             // Transformation XSLT avec paramètre de langue
             const xsltProcessor = new XSLTProcessor();
             xsltProcessor.importStylesheet(xslDoc);
             xsltProcessor.setParameter(null, 'langue', langue);
 
             const resultDoc = xsltProcessor.transformToDocument(xmlDoc);
+            
+            if (!resultDoc) {
+                throw new Error('Échec transformation XSLT');
+            }
+            
             const newHtml = new XMLSerializer().serializeToString(resultDoc);
+            
+            console.log('✅ Transformation XSLT réussie');
             
             // Remplacer le contenu avec préservation du scroll
             const shouldRestorePosition = nouvelleLangue !== null;
             
-            // Masquer l'écran de chargement s'il existe encore
+            // Masquer l'écran de chargement
             this.masquerChargement();
             
             // Remplacer le contenu
@@ -345,7 +427,6 @@ class CVMultilingueComplete {
             
             // Restaurer la position si c'est un changement de langue
             if (shouldRestorePosition) {
-                // Restaurer la position après que le DOM soit stabilisé
                 setTimeout(() => {
                     this.restaurerPosition();
                 }, 50);
@@ -357,12 +438,9 @@ class CVMultilingueComplete {
                 document.body.style.opacity = '1';
             }, shouldRestorePosition ? 200 : 100);
             
-            // Gérer les vidéos multilingues
-            this.gererVideoMultilingue();
-            
         } catch (error) {
-            console.error('❌ Erreur transformation XSLT:', error);
-            this.afficherErreur();
+            console.error('❌ Erreur chargement CV:', error);
+            this.afficherErreur(error.message);
         }
     }
 
@@ -623,23 +701,93 @@ class CVMultilingueComplete {
         setTimeout(() => debugDiv.remove(), 8000);
     }
 
-    afficherErreur() {
+    afficherErreur(messageDetaille = '') {
         document.body.innerHTML = `
-            <div style="padding: 40px; text-align: center; font-family: Arial, sans-serif;">
+            <div style="padding: 40px; text-align: center; font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto;">
                 <h1 style="color: #e74c3c;">❌ Erreur de chargement</h1>
-                <p>Impossible de charger le CV multilingue.</p>
-                <p><strong>Langue sélectionnée:</strong> ${this.langueActuelle}</p>
-                <p><strong>Fichiers requis:</strong> cv.xml, cv.xsl</p>
-                <button onclick="location.reload()" style="
-                    padding: 10px 20px; 
-                    background: #3498db; 
-                    color: white; 
-                    border: none; 
-                    border-radius: 5px; 
-                    cursor: pointer;
-                    margin-top: 20px;
-                ">🔄 Recharger</button>
+                <p style="margin: 20px 0;">Impossible de charger le CV multilingue.</p>
+                
+                ${messageDetaille ? `<div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #e74c3c;">
+                    <strong>Détails:</strong> ${messageDetaille}
+                </div>` : ''}
+                
+                <div style="background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #ffc107;">
+                    <h3 style="color: #856404; margin-top: 0;">Solutions possibles :</h3>
+                    <ul style="text-align: left; color: #856404;">
+                        <li>Vérifiez que les fichiers <code>cv_fr.html</code>, <code>cv_en.html</code>, <code>cv_zh.html</code> existent</li>
+                        <li>Vérifiez que les fichiers <code>cv.xml</code> et <code>cv.xsl</code> sont présents</li>
+                        <li>Ouvrez la console développeur (F12) pour voir les erreurs détaillées</li>
+                        <li>Si vous êtes sur GitHub Pages, assurez-vous que tous les fichiers sont bien commités</li>
+                    </ul>
+                </div>
+                
+                <p><strong>Langue sélectionnée:</strong> <code>${this.langueActuelle}</code></p>
+                <p><strong>URL actuelle:</strong> <code>${window.location.href}</code></p>
+                
+                <div style="margin-top: 30px;">
+                    <button onclick="location.reload()" style="
+                        padding: 12px 24px; 
+                        background: #3498db; 
+                        color: white; 
+                        border: none; 
+                        border-radius: 5px; 
+                        cursor: pointer;
+                        margin: 5px;
+                        font-size: 16px;
+                    ">🔄 Recharger</button>
+                    
+                    <button onclick="forceLanguage('fr-FR')" style="
+                        padding: 12px 24px; 
+                        background: #28a745; 
+                        color: white; 
+                        border: none; 
+                        border-radius: 5px; 
+                        cursor: pointer;
+                        margin: 5px;
+                        font-size: 16px;
+                    ">🇫🇷 Forcer FR</button>
+                    
+                    <button onclick="forceLanguage('en-GB')" style="
+                        padding: 12px 24px; 
+                        background: #28a745; 
+                        color: white; 
+                        border: none; 
+                        border-radius: 5px; 
+                        cursor: pointer;
+                        margin: 5px;
+                        font-size: 16px;
+                    ">🇬🇧 Forcer EN</button>
+                    
+                    <button onclick="window.location.href='cv_fr.html'" style="
+                        padding: 12px 24px; 
+                        background: #6c757d; 
+                        color: white; 
+                        border: none; 
+                        border-radius: 5px; 
+                        cursor: pointer;
+                        margin: 5px;
+                        font-size: 16px;
+                    ">📄 CV Français direct</button>
+                </div>
+                
+                <div style="margin-top: 20px; font-size: 12px; color: #6c757d;">
+                    <p>Si le problème persiste, essayez d'accéder directement aux fichiers :</p>
+                    <p>
+                        <a href="cv_fr.html" style="color: #3498db; margin: 0 10px;">cv_fr.html</a>
+                        <a href="cv_en.html" style="color: #3498db; margin: 0 10px;">cv_en.html</a>
+                        <a href="cv_zh.html" style="color: #3498db; margin: 0 10px;">cv_zh.html</a>
+                    </p>
+                </div>
             </div>
+            
+            <script>
+                function forceLanguage(lang) {
+                    localStorage.setItem('cv_langue', lang);
+                    const url = new URL(window.location);
+                    url.searchParams.set('lang', lang);
+                    window.location.href = url.toString();
+                }
+            </script>
         `;
     }
 
@@ -684,15 +832,47 @@ window.testLanguePriorites = () => {
 window.testNavigationFluide = () => {
     console.log('🧪 Test navigation fluide');
     
-    // Scroller vers le bas
+    // Test 1: Scroller vers le bas
     window.scrollTo(0, 500);
     console.log('1. Scrollé vers 500px');
     
-    // Attendre puis changer de langue
+    // Test 2: Attendre puis changer de langue
     setTimeout(() => {
-        cvController.changerLangueGet('en-GB');
         console.log('2. Changement vers anglais, position devrait être conservée');
+        cvController.changerLangueGet('en-GB');
     }, 1000);
+};
+
+window.testPositionsMultiples = () => {
+    console.log('🧪 Test positions multiples');
+    
+    const positions = [300, 800, 1200, 1800];
+    let index = 0;
+    
+    const testSuivant = () => {
+        if (index >= positions.length) {
+            console.log('✅ Test terminé');
+            return;
+        }
+        
+        const position = positions[index];
+        console.log(`Test ${index + 1}: Scroll vers ${position}px`);
+        
+        window.scrollTo(0, position);
+        
+        setTimeout(() => {
+            const langues = ['fr-FR', 'en-GB', 'zh-CN'];
+            const langueTest = langues[index % langues.length];
+            console.log(`Changement vers ${langueTest}`);
+            
+            cvController.changerLangueGet(langueTest);
+            index++;
+            
+            setTimeout(testSuivant, 2000);
+        }, 1000);
+    };
+    
+    testSuivant();
 };
 
 window.allerVersSection = (sectionId) => {
@@ -700,5 +880,23 @@ window.allerVersSection = (sectionId) => {
     if (section) {
         section.scrollIntoView({ behavior: 'smooth' });
         window.history.pushState(null, null, `#${sectionId}`);
+        console.log(`📍 Navigation vers section: ${sectionId}`);
+    } else {
+        console.warn(`⚠️ Section non trouvée: ${sectionId}`);
     }
+};
+
+// Fonction pour tester toutes les fonctionnalités
+window.testComplet = () => {
+    console.log('🧪 Test complet de navigation');
+    
+    // Afficher les sections disponibles
+    const sections = document.querySelectorAll('.section');
+    console.log('Sections disponibles:', Array.from(sections).map(s => s.id || 'sans-id'));
+    
+    // Test navigation clavier
+    console.log('Utilisez Alt+1 (FR), Alt+2 (EN), Alt+3 (ZH) pour tester la navigation clavier');
+    
+    // Test debug
+    cvController.afficherDebugInfo();
 };
