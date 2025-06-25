@@ -73,25 +73,26 @@
     }
   ],
 
-  "video": {
-    "id": "animal-video",
-    "youtubeId": "153WwPdJHCM",
-    "title": {
-      "fr-FR": "Vidéo d'un animal",
-      "en-GB": "Animal Video", 
-      "zh-CN": "动物视频"
+  
+    "video": {
+        "id": "animal-video",
+        "youtubeId": "153WwPdJHCM",
+        "title": {
+            "fr-FR": "Vidéo d'un animal",
+            "en-GB": "Animal Video", 
+            "zh-CN": "动物视频"
+        },
+        "description": {
+            "fr-FR": "Cette vidéo présente un animal dans son habitat naturel. Cette vidéo a été réalisée par \"Voyages du bout du monde\", elle est intégrée à ce site dans le cadre d'un projet universitaire.",
+            "en-GB": "This video presents an animal in its natural habitat. This video was made by \"Voyages du bout du monde\", it is integrated into this site as part of a university project.",
+            "zh-CN": "这个视频展示了一个动物在其自然栖息地。这个视频是由\"Voyages du bout du monde\"制作的，作为大学项目的一部分被整合到这个网站中。"
+        },
+        "urls": {
+            "fr-FR": "https://www.youtube.com/embed/153WwPdJHCM?hl=fr&cc_lang_pref=fr&cc_load_policy=1&rel=0&modestbranding=1",
+            "en-GB": "https://www.youtube.com/embed/153WwPdJHCM?hl=en&cc_lang_pref=en&cc_load_policy=1&rel=0&modestbranding=1",
+            "zh-CN": "https://www.youtube.com/embed/153WwPdJHCM?hl=zh-CN&cc_lang_pref=zh-CN&cc_load_policy=1&rel=0&modestbranding=1"
+        }
     },
-    "description": {
-      "fr-FR": "Cette vidéo présente un animal dans son habitat naturel",
-      "en-GB": "This video presents an animal in its natural habitat",
-      "zh-CN": "这个视频展示了一个动物在其自然栖息地"
-    },
-    "urls": {
-      "fr-FR": "https://www.youtube.com/embed/153WwPdJHCM?rel=0&modestbranding=1&showinfo=0&hl=fr&cc_lang_pref=fr&cc_load_policy=1",
-      "en-GB": "https://www.youtube.com/embed/153WwPdJHCM?rel=0&modestbranding=1&showinfo=0&hl=en&cc_lang_pref=en&cc_load_policy=1",
-      "zh-CN": "https://www.youtube.com/embed/153WwPdJHCM?rel=0&modestbranding=1&showinfo=0&hl=zh&cc_lang_pref=zh&cc_load_policy=1"
-    }
-  },
 
   "education": [
     {

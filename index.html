@@ -225,29 +225,6 @@
                         '</div>';
                     }).join('') +
                 '</div>' +
-                
-                // NOUVELLE SECTION VIDÉO ICI
-                creerSectionVideo(data, langue) +
-                
-                '<div class="section">' +
-                    '<h3 class="section-title">' + projectsTitle + '</h3>' +
-                    
-                    '<div class="project-category">' + gamesTitle + '</div>' +
-                    '<div class="projects-grid">' +
-                        gameProjects.map(proj => 
-                            '<div class="project-item">' +
-                                '<div style="font-weight: bold; color: #2c3e50; margin-bottom: 10px;">' +
-                                    getText(proj.name, langue) +
-                                '</div>' +
-                                '<div style="margin-bottom: 10px;">' +
-                                    getText(proj.description, langue) +
-                                '</div>' +
-                                '<div style="font-size: 12px; color: #7f8c8d;">' +
-                                    '<strong>Technologies : </strong>' + getText(proj.technologies, langue) +
-                                '</div>' +
-                            '</div>'
-                        ).join('') +
-                    '</div>' +
                     
                     '<div class="project-category">' + algorithmTitle + '</div>' +
                     '<div class="projects-grid">' +
@@ -278,6 +255,31 @@
                         ).join('') +
                     '</div>' +
                 '</div>' +
+
+
+                
+                // NOUVELLE SECTION VIDÉO ICI
+                creerSectionVideo(data, langue) +
+                
+                '<div class="section">' +
+                    '<h3 class="section-title">' + projectsTitle + '</h3>' +
+                    
+                    '<div class="project-category">' + gamesTitle + '</div>' +
+                    '<div class="projects-grid">' +
+                        gameProjects.map(proj => 
+                            '<div class="project-item">' +
+                                '<div style="font-weight: bold; color: #2c3e50; margin-bottom: 10px;">' +
+                                    getText(proj.name, langue) +
+                                '</div>' +
+                                '<div style="margin-bottom: 10px;">' +
+                                    getText(proj.description, langue) +
+                                '</div>' +
+                                '<div style="font-size: 12px; color: #7f8c8d;">' +
+                                    '<strong>Technologies : </strong>' + getText(proj.technologies, langue) +
+                                '</div>' +
+                            '</div>'
+                        ).join('') +
+                    '</div>' +
             '</div>';
         }
         
@@ -342,6 +344,11 @@
                         // Afficher le nouveau CV
                         await afficherCV(nouvelleLangue);
                         
+                        // IMPORTANT: Forcer la mise à jour de la vidéo après le changement de page
+                        setTimeout(() => {
+                            updateVideoLanguage();
+                        }, 300);
+                        
                         // Restaurer la position de scroll
                         setTimeout(() => {
                             window.scrollTo(0, scrollPosition);
@@ -393,6 +400,59 @@
             
             await afficherCV(langueChoisie);
         });
+
+        const videoConfig = {
+            'fr-FR': {
+                title: 'Vidéo d\'un animal',
+                description: 'Cette vidéo présente un animal dans son habitat naturel. Cette vidéo a été réalisée par "Voyages du bout du monde", elle est intégrée à ce site dans le cadre d\'un projet universitaire.',
+                url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=fr&cc_lang_pref=fr&cc_load_policy=1&rel=0&modestbranding=1',
+                indicator: 'FR 🇫🇷'
+            },
+            'en-GB': {
+                title: 'Animal Video',
+                description: 'This video presents an animal in its natural habitat. This video was made by "Voyages du bout du monde", it is integrated into this site as part of a university project.',
+                url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=en&cc_lang_pref=en&cc_load_policy=1&rel=0&modestbranding=1',
+                indicator: 'EN 🇬🇧'
+            },
+            'zh-CN': {
+                title: '动物视频',
+                description: '这个视频展示了一个动物在其自然栖息地。这个视频是由"Voyages du bout du monde"制作的，作为大学项目的一部分被整合到这个网站中。',
+                url: 'https://www.youtube.com/embed/153WwPdJHCM?hl=zh-CN&cc_lang_pref=zh-CN&cc_load_policy=1&rel=0&modestbranding=1',
+                indicator: '中文 🇨🇳'
+            }
+        };
+
+        // Fonction pour mettre à jour la langue de la vidéo
+        function updateVideoLanguage() {
+            const currentLang = determinerLangue(); // Utilise votre fonction existante
+            const config = videoConfig[currentLang];
+            
+            if (!config) {
+                console.warn('Configuration vidéo non trouvée pour la langue:', currentLang);
+                return;
+            }
+            
+            const videoElement = document.getElementById('youtube-video');
+            const descriptionElement = document.getElementById('video-description');
+            
+            if (videoElement) {
+                // FORCER le rechargement avec la nouvelle langue
+                videoElement.style.opacity = '0.5';
+                videoElement.style.transition = 'opacity 0.3s ease';
+                
+                setTimeout(() => {
+                    videoElement.src = config.url;
+                    videoElement.title = config.title;
+                    videoElement.style.opacity = '1';
+                }, 150);
+            }
+            
+            if (descriptionElement) {
+                descriptionElement.textContent = config.description;
+            }
+            
+            console.log('✅ Vidéo mise à jour:', currentLang, config.url);
+        }
     </script>
 </body>
 </html>
