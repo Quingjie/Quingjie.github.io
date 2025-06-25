@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://portfolio.gouzerh.fr/cv"
+           xmlns:tns="http://portfolio.gouzerh.fr/cv"
+           elementFormDefault="qualified">
+
+  <!-- Types simples -->
+  <xs:simpleType name="codeLangue">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-z]{2}-[A-Z]{2}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="niveauLangue">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="debutant"/>
+      <xs:enumeration value="intermediaire"/>
+      <xs:enumeration value="avance"/>
+      <xs:enumeration value="courant"/>
+      <xs:enumeration value="natif"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="typeContact">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="telephone"/>
+      <xs:enumeration value="email"/>
+      <xs:enumeration value="adresse"/>
+      <xs:enumeration value="linkedin"/>
+      <xs:enumeration value="site"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="typeExperience">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="professionnel"/>
+      <xs:enumeration value="stage"/>
+      <xs:enumeration value="complementaire"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="categorieCompetence">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="programmation"/>
+      <xs:enumeration value="outils"/>
+      <xs:enumeration value="methodologie"/>
+      <xs:enumeration value="autre"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Type pour traduction multilingue -->
+  <xs:complexType name="texteMultilingue">
+    <xs:sequence>
+      <xs:element name="traduction" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="lang" type="tns:codeLangue" use="required"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Type pour période -->
+  <xs:complexType name="periode">
+    <xs:sequence>
+      <xs:element name="debut" type="xs:gYear"/>
+      <xs:element name="fin" type="xs:gYear" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Type pour contact -->
+  <xs:complexType name="contact">
+    <xs:sequence>
+      <xs:element name="type" type="tns:typeContact"/>
+      <xs:element name="valeur" type="xs:string"/>
+      <xs:element name="libelle" type="tns:texteMultilingue" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID" use="required"/>
+  </xs:complexType>
+
+  <!-- Type pour formation -->
+  <xs:complexType name="formation">
+    <xs:sequence>
+      <xs:element name="diplome" type="tns:texteMultilingue"/>
+      <xs:element name="etablissement" type="tns:texteMultilingue"/>
+      <xs:element name="lieu" type="tns:texteMultilingue"/>
+      <xs:element name="periode" type="tns:periode"/>
+      <xs:element name="description" type="tns:texteMultilingue" minOccurs="0"/>
+      <xs:element name="options" type="tns:texteMultilingue" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID" use="required"/>
+  </xs:complexType>
+
+  <!-- Type pour expérience -->
+  <xs:complexType name="experience">
+    <xs:sequence>
+      <xs:element name="poste" type="tns:texteMultilingue"/>
+      <xs:element name="entreprise" type="tns:texteMultilingue"/>
+      <xs:element name="lieu" type="tns:texteMultilingue"/>
+      <xs:element name="periode" type="tns:periode"/>
+      <xs:element name="description" type="tns:texteMultilingue" minOccurs="0"/>
+      <xs:element name="taches" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="tache" type="tns:texteMultilingue" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID" use="required"/>
+    <xs:attribute name="type" type="tns:typeExperience" use="required"/>
+  </xs:complexType>
+
+  <!-- Type pour compétence technique -->
+  <xs:complexType name="competenceTechnique">
+    <xs:sequence>
+      <xs:element name="nom" type="tns:texteMultilingue"/>
+      <xs:element name="niveau" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:integer">
+            <xs:minInclusive value="1"/>
+            <xs:maxInclusive value="5"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="description" type="tns:texteMultilingue" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="categorie" type="tns:categorieCompetence" use="required"/>
+  </xs:complexType>
+
+  <!-- Type pour compétence langue -->
+  <xs:complexType name="competenceLangue">
+    <xs:sequence>
+      <xs:element name="nom" type="tns:texteMultilingue"/>
+      <xs:element name="niveau" type="tns:niveauLangue"/>
+      <xs:element name="niveauTexte" type="tns:texteMultilingue" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="code" type="tns:codeLangue" use="required"/>
+  </xs:complexType>
+
+  <!-- Type pour projet -->
+  <xs:complexType name="projet">
+    <xs:sequence>
+      <xs:element name="nom" type="tns:texteMultilingue"/>
+      <xs:element name="description" type="tns:texteMultilingue"/>
+      <xs:element name="technologies" type="tns:texteMultilingue" minOccurs="0"/>
+      <xs:element name="url" type="xs:anyURI" minOccurs="0"/>
+      <xs:element name="periode" type="tns:periode" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID" use="required"/>
+  </xs:complexType>
+
+  <!-- Type pour centre d'intérêt -->
+  <xs:complexType name="centreInteret">
+    <xs:sequence>
+      <xs:element name="nom" type="tns:texteMultilingue"/>
+      <xs:element name="description" type="tns:texteMultilingue" minOccurs="0"/>
+      <xs:element name="icone" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Élément racine CV -->
+  <xs:element name="cv">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="metadata">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="languesDisponibles">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="langue" type="tns:codeLangue" maxOccurs="unbounded"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="derniereModification" type="xs:date"/>
+              <xs:element name="version" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="identite">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="prenom" type="xs:string"/>
+              <xs:element name="nom" type="xs:string"/>
+              <xs:element name="dateNaissance" type="xs:date"/>
+              <xs:element name="lieuNaissance" type="tns:texteMultilingue"/>
+              <xs:element name="nationalite" type="tns:texteMultilingue"/>
+              <xs:element name="titre" type="tns:texteMultilingue"/>
+              <xs:element name="presentation" type="tns:texteMultilingue"/>
+              <xs:element name="photo" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="contacts">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="contact" type="tns:contact" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="formations">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="formation" type="tns:formation" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="experiences">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="experience" type="tns:experience" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="competences">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="competencesTechniques">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="competence" type="tns:competenceTechnique" maxOccurs="unbounded"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="competencesLangues">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="langue" type="tns:competenceLangue" maxOccurs="unbounded"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="projets" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="projet" type="tns:projet" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element name="centresInteret" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="centre" type="tns:centreInteret" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+
+    <!-- Contraintes de clés -->
+    <xs:key name="contactKey">
+      <xs:selector xpath="tns:contacts/tns:contact"/>
+      <xs:field xpath="@id"/>
+    </xs:key>
+
+    <xs:key name="formationKey">
+      <xs:selector xpath="tns:formations/tns:formation"/>
+      <xs:field xpath="@id"/>
+    </xs:key>
+
+    <xs:key name="experienceKey">
+      <xs:selector xpath="tns:experiences/tns:experience"/>
+      <xs:field xpath="@id"/>
+    </xs:key>
+
+    <xs:key name="projetKey">
+      <xs:selector xpath="tns:projets/tns:projet"/>
+      <xs:field xpath="@id"/>
+    </xs:key>
+  </xs:element>
+
+</xs:schema>

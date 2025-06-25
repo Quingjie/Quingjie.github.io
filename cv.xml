@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="cv.xsl"?>
+<cv xmlns="http://portfolio.gouzerh.fr/cv"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://portfolio.gouzerh.fr/cv cv.xsd">
+
+  <metadata>
+    <languesDisponibles>
+      <langue>fr-FR</langue>
+      <langue>en-GB</langue>
+      <langue>zh-CN</langue>
+    </languesDisponibles>
+    <derniereModification>2025-01-15</derniereModification>
+    <version>1.0</version>
+  </metadata>
+
+  <identite>
+    <prenom>Katell</prenom>
+    <nom>GOUZERH</nom>
+    <dateNaissance>2003-04-05</dateNaissance>
+    <lieuNaissance>
+      <traduction lang="fr-FR">Quimper, France</traduction>
+      <traduction lang="en-GB">Quimper, France</traduction>
+      <traduction lang="zh-CN">法国坎佩尔</traduction>
+    </lieuNaissance>
+    <nationalite>
+      <traduction lang="fr-FR">Française</traduction>
+      <traduction lang="en-GB">French</traduction>
+      <traduction lang="zh-CN">法国</traduction>
+    </nationalite>
+    <titre>
+      <traduction lang="fr-FR">Alternante Ingénieur Informatique</traduction>
+      <traduction lang="en-GB">Computer Engineering Intern</traduction>
+      <traduction lang="zh-CN">计算机工程实习生</traduction>
+    </titre>
+    <presentation>
+      <traduction lang="fr-FR">Je suis à la recherche d'un contrat d'apprentissage de 24 mois, à raison d'un mois sur deux en entreprise. Je suis disponible dès septembre 2024</traduction>
+      <traduction lang="en-GB">I am looking for an apprenticeship contract of 24 months, at the rate of one month out of two in the company. I am available from September 2024.</traduction>
+      <traduction lang="zh-CN">我正在寻找为期24个月的学徒合同，每两个月在公司工作一个月。我从2024年9月开始可以工作。</traduction>
+    </presentation>
+    <photo>katell.jpg</photo>
+  </identite>
+
+  <contacts>
+    <contact id="tel">
+      <type>telephone</type>
+      <valeur>06 46 63 89 89</valeur>
+      <libelle>
+        <traduction lang="fr-FR">Téléphone</traduction>
+        <traduction lang="en-GB">Phone</traduction>
+        <traduction lang="zh-CN">电话</traduction>
+      </libelle>
+    </contact>
+    <contact id="email">
+      <type>email</type>
+      <valeur>katell.gouzerh@hotmail.com</valeur>
+      <libelle>
+        <traduction lang="fr-FR">Mail</traduction>
+        <traduction lang="en-GB">Email</traduction>
+        <traduction lang="zh-CN">邮箱</traduction>
+      </libelle>
+    </contact>
+    <contact id="adresse">
+      <type>adresse</type>
+      <valeur>75020 Paris</valeur>
+      <libelle>
+        <traduction lang="fr-FR">Adresse</traduction>
+        <traduction lang="en-GB">Address</traduction>
+        <traduction lang="zh-CN">地址</traduction>
+      </libelle>
+    </contact>
+    <contact id="linkedin">
+      <type>linkedin</type>
+      <valeur>@katell-gouzerh</valeur>
+      <libelle>
+        <traduction lang="fr-FR">LinkedIn</traduction>
+        <traduction lang="en-GB">LinkedIn</traduction>
+        <traduction lang="zh-CN">领英</traduction>
+      </libelle>
+    </contact>
+  </contacts>
+
+  <formations>
+    <formation id="form1">
+      <diplome>
+        <traduction lang="fr-FR">Formation d'Ingénieur Informatique</traduction>
+        <traduction lang="en-GB">Computer Engineering Training</traduction>
+        <traduction lang="zh-CN">计算机工程培训</traduction>
+      </diplome>
+      <etablissement>
+        <traduction lang="fr-FR">Sup Galilée, Université Sorbonne Paris Nord</traduction>
+        <traduction lang="en-GB">Sup Galilée, Université Sorbonne Paris Nord</traduction>
+        <traduction lang="zh-CN">索邦巴黎北大学伽利略学院</traduction>
+      </etablissement>
+      <lieu>
+        <traduction lang="fr-FR">Villetaneuse</traduction>
+        <traduction lang="en-GB">Villetaneuse</traduction>
+        <traduction lang="zh-CN">维勒塔纳斯</traduction>
+      </lieu>
+      <periode>
+        <debut>2023</debut>
+      </periode>
+    </formation>
+    
+    <formation id="form2">
+      <diplome>
+        <traduction lang="fr-FR">Cursus Préparatoire Ingénieur Intégré (CP2I)</traduction>
+        <traduction lang="en-GB">Integrated Engineering Preparatory Training (CP2I)</traduction>
+        <traduction lang="zh-CN">综合工程预科培训</traduction>
+      </diplome>
+      <etablissement>
+        <traduction lang="fr-FR">Sup Galilée, Université Sorbonne Paris Nord</traduction>
+        <traduction lang="en-GB">Sup Galilée, Université Sorbonne Paris Nord</traduction>
+        <traduction lang="zh-CN">索邦巴黎北大学伽利略学院</traduction>
+      </etablissement>
+      <lieu>
+        <traduction lang="fr-FR">Villetaneuse</traduction>
+        <traduction lang="en-GB">Villetaneuse</traduction>
+        <traduction lang="zh-CN">维勒塔纳斯</traduction>
+      </lieu>
+      <periode>
+        <debut>2021</debut>
+        <fin>2023</fin>
+      </periode>
+      <options>
+        <traduction lang="fr-FR">Internet of Things, Domaine d'Application de l'Informatique, Conception Algorithmique, Initiation aux Interfaces graphiques, Méthode Algébrique Pour l'Informatique</traduction>
+        <traduction lang="en-GB">Internet of Things, Field of Application of Computer Science, Algorithmic Design, Introduction to Graphical Interfaces, Algebraic Method for Computer Science</traduction>
+        <traduction lang="zh-CN">物联网，计算机科学应用领域，算法设计，图形界面入门，计算机代数方法</traduction>
+      </options>
+    </formation>
+  </formations>
+
+  <experiences>
+    <experience id="exp1" type="professionnel">
+      <poste>
+        <traduction lang="fr-FR">Alternante en Informatique</traduction>
+        <traduction lang="en-GB">Computer Science Intern</traduction>
+        <traduction lang="zh-CN">计算机科学实习生</traduction>
+      </poste>
+      <entreprise>
+        <traduction lang="fr-FR">À définir</traduction>
+        <traduction lang="en-GB">To be defined</traduction>
+        <traduction lang="zh-CN">待定</traduction>
+      </entreprise>
+      <lieu>
+        <traduction lang="fr-FR">Paris</traduction>
+        <traduction lang="en-GB">Paris</traduction>
+        <traduction lang="zh-CN">巴黎</traduction>
+      </lieu>
+      <periode>
+        <debut>2025</debut>
+      </periode>
+    </experience>
+
+    <experience id="exp2" type="professionnel">
+      <poste>
+        <traduction lang="fr-FR">Animatrice de colonie de vacances</traduction>
+        <traduction lang="en-GB">Summer Camp Activity Leader</traduction>
+        <traduction lang="zh-CN">夏令营活动领导者</traduction>
+      </poste>
+      <entreprise>
+        <traduction lang="fr-FR">CSEC Total, Barioz</traduction>
+        <traduction lang="en-GB">CSEC Total, Barioz</traduction>
+        <traduction lang="zh-CN">CSEC道达尔，巴里奥兹</traduction>
+      </entreprise>
+      <lieu>
+        <traduction lang="fr-FR">Barioz</traduction>
+        <traduction lang="en-GB">Barioz</traduction>
+        <traduction lang="zh-CN">巴里奥兹</traduction>
+      </lieu>
+      <periode>
+        <debut>2021</debut>
+        <fin>2023</fin>
+      </periode>
+      <taches>
+        <tache>
+          <traduction lang="fr-FR">Membre d'une équipe d'animateurs s'occupant d'une cinquantaine d'enfants de 6 à 12 ans pendant 3 semaines</traduction>
+          <traduction lang="en-GB">Member of a team of activity leaders taking care of about fifty children aged six to twelve for three weeks</traduction>
+          <traduction lang="zh-CN">作为活动领导团队的一员，照顾约50名6-12岁的儿童，为期3周</traduction>
+        </tache>
+        <tache>
+          <traduction lang="fr-FR">Responsable Convoyage en 2022 et 2023</traduction>
+          <traduction lang="en-GB">Transport Manager in 2022 and 2023</traduction>
+          <traduction lang="zh-CN">2022年和2023年负责护送工作</traduction>
+        </tache>
+        <tache>
+          <traduction lang="fr-FR">Surveillante Baignade en 2023 (PSC1 ET BSB obtenus en juillet 2023)</traduction>
+          <traduction lang="en-GB">Swimming Supervisor in 2023 (PSC1 and BSB obtained in July 2023)</traduction>
+          <traduction lang="zh-CN">2023年游泳监督员（2023年7月获得PSC1和BSB证书）</traduction>
+        </tache>
+      </taches>
+    </experience>
+    
+    <experience id="exp3" type="professionnel">
+      <poste>
+        <traduction lang="fr-FR">Animatrice</traduction>
+        <traduction lang="en-GB">Activity Leader</traduction>
+        <traduction lang="zh-CN">活动领导者</traduction>
+      </poste>
+      <entreprise>
+        <traduction lang="fr-FR">Mairie de Montreuil</traduction>
+        <traduction lang="en-GB">Montreuil City Hall</traduction>
+        <traduction lang="zh-CN">蒙特勒伊市政厅</traduction>
+      </entreprise>
+      <lieu>
+        <traduction lang="fr-FR">St Bris-Le-Vineux</traduction>
+        <traduction lang="en-GB">St Bris-Le-Vineux</traduction>
+        <traduction lang="zh-CN">圣布里斯勒维诺</traduction>
+      </lieu>
+      <periode>
+        <debut>2023</debut>
+        <fin>2023</fin>
+      </periode>
+      <taches>
+        <tache>
+          <traduction lang="fr-FR">Membre d'une équipe d'animateurs s'occupant d'une cinquantaine d'enfants de 4 à 7 ans pendant 10 jours</traduction>
+          <traduction lang="en-GB">Member of a team of activity leaders taking care of about fifty children aged four to seven for ten days</traduction>
+          <traduction lang="zh-CN">作为活动领导团队的一员，照顾约50名4-7岁的儿童，为期10天</traduction>
+        </tache>
+      </taches>
+    </experience>
+    
+    <experience id="exp4" type="complementaire">
+      <poste>
+        <traduction lang="fr-FR">Membre du Bureau des Étudiants</traduction>
+        <traduction lang="en-GB">Member of the Student Board</traduction>
+        <traduction lang="zh-CN">学生会成员</traduction>
+      </poste>
+      <entreprise>
+        <traduction lang="fr-FR">Sup Galilée</traduction>
+        <traduction lang="en-GB">Sup Galilée</traduction>
+        <traduction lang="zh-CN">伽利略学院</traduction>
+      </entreprise>
+      <lieu>
+        <traduction lang="fr-FR">Villetaneuse</traduction>
+        <traduction lang="en-GB">Villetaneuse</traduction>
+        <traduction lang="zh-CN">维勒塔纳斯</traduction>
+      </lieu>
+      <periode>
+        <debut>2022</debut>
+        <fin>2025</fin>
+      </periode>
+      <taches>
+        <tache>
+          <traduction lang="fr-FR">Responsable Partenariats, Communication et Snacks</traduction>
+          <traduction lang="en-GB">Head of Partnerships, Communication and Snacks</traduction>
+          <traduction lang="zh-CN">合作、传播和小食负责人</traduction>
+        </tache>
+      </taches>
+    </experience>
+    
+    <experience id="exp5" type="complementaire">
+      <poste>
+        <traduction lang="fr-FR">Ambassadrice Communication de l'USPN</traduction>
+        <traduction lang="en-GB">Communication Ambassador of the USPN</traduction>
+        <traduction lang="zh-CN">USPN传播大使</traduction>
+      </poste>
+      <entreprise>
+        <traduction lang="fr-FR">Université Sorbonne Paris Nord</traduction>
+        <traduction lang="en-GB">Université Sorbonne Paris Nord</traduction>
+        <traduction lang="zh-CN">索邦巴黎北大学</traduction>
+      </entreprise>
+      <lieu>
+        <traduction lang="fr-FR">Villetaneuse</traduction>
+        <traduction lang="en-GB">Villetaneuse</traduction>
+        <traduction lang="zh-CN">维勒塔纳斯</traduction>
+      </lieu>
+      <periode>
+        <debut>2023</debut>
+      </periode>
+    </experience>
+  </experiences>
+
+  <competences>
+    <competencesTechniques>
+      <competence categorie="programmation">
+        <nom>
+          <traduction lang="fr-FR">Langages de Programmation</traduction>
+          <traduction lang="en-GB">Programming Languages</traduction>
+          <traduction lang="zh-CN">编程语言</traduction>
+        </nom>
+        <niveau>4</niveau>
+        <description>
+          <traduction lang="fr-FR">C, Python, HTML, CSS, Matlab, MIPS, SQL, Java, Javascript</traduction>
+          <traduction lang="en-GB">C, Python, HTML, CSS, Matlab, MIPS, SQL, Java, Javascript</traduction>
+          <traduction lang="zh-CN">C, Python, HTML, CSS, Matlab, MIPS, SQL, Java, Javascript</traduction>
+        </description>
+      </competence>
+      
+      <competence categorie="methodologie">
+        <nom>
+          <traduction lang="fr-FR">Algorithmique</traduction>
+          <traduction lang="en-GB">Algorithmic</traduction>
+          <traduction lang="zh-CN">算法</traduction>
+        </nom>
+        <niveau>4</niveau>
+      </competence>
+      
+      <competence categorie="methodologie">
+        <nom>
+          <traduction lang="fr-FR">Web Sémantique</traduction>
+          <traduction lang="en-GB">Semantic Web</traduction>
+          <traduction lang="zh-CN">语义网</traduction>
+        </nom>
+        <niveau>4</niveau>
+      </competence>
+      
+      <competence categorie="outils">
+        <nom>
+          <traduction lang="fr-FR">Montage Photo/Vidéo</traduction>
+          <traduction lang="en-GB">Photo/Video editing</traduction>
+          <traduction lang="zh-CN">照片/视频编辑</traduction>
+        </nom>
+        <niveau>3</niveau>
+      </competence>
+      
+      <competence categorie="outils">
+        <nom>
+          <traduction lang="fr-FR">Canva</traduction>
+          <traduction lang="en-GB">Canva</traduction>
+          <traduction lang="zh-CN">Canva</traduction>
+        </nom>
+        <niveau>4</niveau>
+      </competence>
+      
+      <competence categorie="autre">
+        <nom>
+          <traduction lang="fr-FR">Communication</traduction>
+          <traduction lang="en-GB">Communication</traduction>
+          <traduction lang="zh-CN">沟通</traduction>
+        </nom>
+        <niveau>5</niveau>
+      </competence>
+      
+      <competence categorie="autre">
+        <nom>
+          <traduction lang="fr-FR">Organisation</traduction>
+          <traduction lang="en-GB">Organization</traduction>
+          <traduction lang="zh-CN">组织</traduction>
+        </nom>
+        <niveau>5</niveau>
+      </competence>
+      
+      <competence categorie="autre">
+        <nom>
+          <traduction lang="fr-FR">Esprit d'Équipe</traduction>
+          <traduction lang="en-GB">Teamwork</traduction>
+          <traduction lang="zh-CN">团队合作</traduction>
+        </nom>
+        <niveau>5</niveau>
+      </competence>
+    </competencesTechniques>
+    
+    <competencesLangues>
+      <langue code="fr-FR">
+        <nom>
+          <traduction lang="fr-FR">Français</traduction>
+          <traduction lang="en-GB">French</traduction>
+          <traduction lang="zh-CN">法语</traduction>
+        </nom>
+        <niveau>natif</niveau>
+        <niveauTexte>
+          <traduction lang="fr-FR">Langue maternelle</traduction>
+          <traduction lang="en-GB">Native language</traduction>
+          <traduction lang="zh-CN">母语</traduction>
+        </niveauTexte>
+      </langue>
+      
+      <langue code="en-GB">
+        <nom>
+          <traduction lang="fr-FR">Anglais</traduction>
+          <traduction lang="en-GB">English</traduction>
+          <traduction lang="zh-CN">英语</traduction>
+        </nom>
+        <niveau>avance</niveau>
+        <niveauTexte>
+          <traduction lang="fr-FR">Avancé</traduction>
+          <traduction lang="en-GB">Advanced</traduction>
+          <traduction lang="zh-CN">高级</traduction>
+        </niveauTexte>
+      </langue>
+      
+      <langue code="de-DE">
+        <nom>
+          <traduction lang="fr-FR">Allemand</traduction>
+          <traduction lang="en-GB">German</traduction>
+          <traduction lang="zh-CN">德语</traduction>
+        </nom>
+        <niveau>debutant</niveau>
+        <niveauTexte>
+          <traduction lang="fr-FR">Notions</traduction>
+          <traduction lang="en-GB">Basic notions</traduction>
+          <traduction lang="zh-CN">基础</traduction>
+        </niveauTexte>
+      </langue>
+    </competencesLangues>
+  </competences>
+
+  <projets>
+    <projet id="proj1">
+      <nom>
+        <traduction lang="fr-FR">Puissance 4 jouable à 2 ou contre un bot</traduction>
+        <traduction lang="en-GB">Connect 4 playable for 2 or against bot</traduction>
+        <traduction lang="zh-CN">可双人或对战机器人的四子棋</traduction>
+      </nom>
+      <description>
+        <traduction lang="fr-FR">Programme selon l'algorithme min max pour choisir le meilleur coup (2024, en C)</traduction>
+        <traduction lang="en-GB">Program using min max algorithm to choose the best move (2024, in C)</traduction>
+        <traduction lang="zh-CN">使用极小极大算法选择最佳走法的程序（2024年，C语言）</traduction>
+      </description>
+      <technologies>
+        <traduction lang="fr-FR">C, Algorithme Min-Max</traduction>
+        <traduction lang="en-GB">C, Min-Max Algorithm</traduction>
+        <traduction lang="zh-CN">C语言，极小极大算法</traduction>
+      </technologies>
+    </projet>
+    
+    <projet id="proj2">
+      <nom>
+        <traduction lang="fr-FR">Pac Man</traduction>
+        <traduction lang="en-GB">Pac Man</traduction>
+        <traduction lang="zh-CN">吃豆人游戏</traduction>
+      </nom>
+      <description>
+        <traduction lang="fr-FR">Jeu Pac Man développé en C (2022)</traduction>
+        <traduction lang="en-GB">Pac Man game developed in C (2022)</traduction>
+        <traduction lang="zh-CN">用C语言开发的吃豆人游戏（2022年）</traduction>
+      </description>
+      <technologies>
+        <traduction lang="fr-FR">C</traduction>
+        <traduction lang="en-GB">C</traduction>
+        <traduction lang="zh-CN">C语言</traduction>
+      </technologies>
+    </projet>
+    
+    <projet id="proj3">
+      <nom>
+        <traduction lang="fr-FR">Jeu de la vie en n dimensions</traduction>
+        <traduction lang="en-GB">Game of Life in n dimensions</traduction>
+        <traduction lang="zh-CN">n维生命游戏</traduction>
+      </nom>
+      <description>
+        <traduction lang="fr-FR">En cours de développement en Java</traduction>
+        <traduction lang="en-GB">Currently in development in Java</traduction>
+        <traduction lang="zh-CN">正在用Java开发中</traduction>
+      </description>
+      <technologies>
+        <traduction lang="fr-FR">Java</traduction>
+        <traduction lang="en-GB">Java</traduction>
+        <traduction lang="zh-CN">Java</traduction>
+      </technologies>
+    </projet>
+    
+    <projet id="proj4">
+      <nom>
+        <traduction lang="fr-FR">Communication via tubes et threads</traduction>
+        <traduction lang="en-GB">Communication via pipes and threads</traduction>
+        <traduction lang="zh-CN">通过管道和线程通信</traduction>
+      </nom>
+      <description>
+        <traduction lang="fr-FR">Permettant à deux utilisateurs de communiquer via leurs terminaux, grâce à l'utilisation de tubes et de threads (2024, en C)</traduction>
+        <traduction lang="en-GB">Allowing two users to communicate via their terminals, using pipes and threads (2024, in C)</traduction>
+        <traduction lang="zh-CN">允许两个用户通过终端进行通信，使用管道和线程（2024年，C语言）</traduction>
+      </description>
+      <technologies>
+        <traduction lang="fr-FR">C, Tubes, Threads</traduction>
+        <traduction lang="en-GB">C, Pipes, Threads</traduction>
+        <traduction lang="zh-CN">C语言，管道，线程</traduction>
+      </technologies>
+    </projet>
+    
+    <projet id="proj5">
+      <nom>
+        <traduction lang="fr-FR">Algorithme d'inversion de matrice</traduction>
+        <traduction lang="en-GB">Matrix inversion algorithm</traduction>
+        <traduction lang="zh-CN">矩阵求逆算法</traduction>
+      </nom>
+      <description>
+        <traduction lang="fr-FR">Algorithme d'inversion d'une matrice (2023, en C)</traduction>
+        <traduction lang="en-GB">Matrix inversion algorithm (2023, in C)</traduction>
+        <traduction lang="zh-CN">矩阵求逆算法（2023年，C语言）</traduction>
+      </description>
+      <technologies>
+        <traduction lang="fr-FR">C, Algèbre linéaire</traduction>
+        <traduction lang="en-GB">C, Linear algebra</traduction>
+        <traduction lang="zh-CN">C语言，线性代数</traduction>
+      </technologies>
+    </projet>
+  </projets>
+
+  <centresInteret>
+    <centre>
+      <nom>
+        <traduction lang="fr-FR">Lecture</traduction>
+        <traduction lang="en-GB">Reading</traduction>
+        <traduction lang="zh-CN">阅读</traduction>
+      </nom>
+      <icone>📚</icone>
+    </centre>
+    
+    <centre>
+      <nom>
+        <traduction lang="fr-FR">Voyages</traduction>
+        <traduction lang="en-GB">Travel</traduction>
+        <traduction lang="zh-CN">旅行</traduction>
+      </nom>
+      <icone>✈️</icone>
+    </centre>
+    
+    <centre>
+      <nom>
+        <traduction lang="fr-FR">Photographie</traduction>
+        <traduction lang="en-GB">Photography</traduction>
+        <traduction lang="zh-CN">摄影</traduction>
+      </nom>
+      <icone>📷</icone>
+    </centre>
+    
+    <centre>
+      <nom>
+        <traduction lang="fr-FR">Badminton</traduction>
+        <traduction lang="en-GB">Badminton</traduction>
+        <traduction lang="zh-CN">羽毛球</traduction>
+      </nom>
+      <icone>🏸</icone>
+    </centre>
+  </centresInteret>
+
+</cv>

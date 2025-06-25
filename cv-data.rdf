@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:cv="http://portfolio.gouzerh.fr/cv#"
+         xmlns:foaf="http://xmlns.com/foaf/0.1/"
+         xmlns:schema="http://schema.org/">
+
+  <!-- Personne principale -->
+  <cv:Person rdf:about="http://portfolio.gouzerh.fr/cv#katell-gouzerh">
+    <cv:firstName>Katell</cv:firstName>
+    <cv:lastName>GOUZERH</cv:lastName>
+    <cv:birthDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2003-04-05</cv:birthDate>
+    <cv:jobTitle xml:lang="fr">Alternante Ingénieur Informatique</cv:jobTitle>
+    <cv:jobTitle xml:lang="en">Computer Engineering Intern</cv:jobTitle>
+    <cv:jobTitle xml:lang="zh">计算机工程实习生</cv:jobTitle>
+    
+    <!-- Contact -->
+    <cv:email>katell.gouzerh@hotmail.com</cv:email>
+    <cv:phone>06 46 63 89 89</cv:phone>
+    <foaf:based_near xml:lang="fr">75020 Paris</foaf:based_near>
+    <foaf:account rdf:resource="https://linkedin.com/in/katell-gouzerh"/>
+    
+    <!-- Formations -->
+    <cv:hasEducation rdf:resource="http://portfolio.gouzerh.fr/cv#education1"/>
+    <cv:hasEducation rdf:resource="http://portfolio.gouzerh.fr/cv#education2"/>
+    
+    <!-- Expériences -->
+    <cv:hasWorkExperience rdf:resource="http://portfolio.gouzerh.fr/cv#experience1"/>
+    <cv:hasWorkExperience rdf:resource="http://portfolio.gouzerh.fr/cv#experience2"/>
+    <cv:hasWorkExperience rdf:resource="http://portfolio.gouzerh.fr/cv#experience3"/>
+    
+    <!-- Projets -->
+    <cv:hasProject rdf:resource="http://portfolio.gouzerh.fr/cv#project1"/>
+    <cv:hasProject rdf:resource="http://portfolio.gouzerh.fr/cv#project2"/>
+    <cv:hasProject rdf:resource="http://portfolio.gouzerh.fr/cv#project3"/>
+    
+    <!-- Compétences -->
+    <cv:hasSkill rdf:resource="http://portfolio.gouzerh.fr/cv#skill1"/>
+    <cv:hasSkill rdf:resource="http://portfolio.gouzerh.fr/cv#skill2"/>
+    <cv:hasSkill rdf:resource="http://portfolio.gouzerh.fr/cv#skill3"/>
+    
+    <!-- Langues -->
+    <cv:speaksLanguage rdf:resource="http://portfolio.gouzerh.fr/cv#lang-fr"/>
+    <cv:speaksLanguage rdf:resource="http://portfolio.gouzerh.fr/cv#lang-en"/>
+    <cv:speaksLanguage rdf:resource="http://portfolio.gouzerh.fr/cv#lang-de"/>
+  </cv:Person>
+
+  <!-- Formations -->
+  <cv:Education rdf:about="http://portfolio.gouzerh.fr/cv#education1">
+    <cv:degree xml:lang="fr">Formation d'Ingénieur Informatique</cv:degree>
+    <cv:degree xml:lang="en">Computer Engineering Training</cv:degree>
+    <cv:institution xml:lang="fr">Sup Galilée, Université Sorbonne Paris Nord</cv:institution>
+    <cv:institution xml:lang="en">Sup Galilée, Université Sorbonne Paris Nord</cv:institution>
+    <schema:location xml:lang="fr">Villetaneuse</schema:location>
+    <cv:startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#gYear">2023</cv:startDate>
+  </cv:Education>
+
+  <cv:Education rdf:about="http://portfolio.gouzerh.fr/cv#education2">
+    <cv:degree xml:lang="fr">Cursus Préparatoire Ingénieur Intégré (CP2I)</cv:degree>
+    <cv:degree xml:lang="en">Integrated Engineering Preparatory Training (CP2I)</cv:degree>
+    <cv:institution xml:lang="fr">Sup Galilée, Université Sorbonne Paris Nord</cv:institution>
+    <schema:location xml:lang="fr">Villetaneuse</schema:location>
+    <cv:startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#gYear">2021</cv:startDate>
+    <cv:endDate rdf:datatype="http://www.w3.org/2001/XMLSchema#gYear">2023</cv:endDate>
+  </cv:Education>
+
+  <!-- Expériences professionnelles -->
+  <cv:WorkExperience rdf:about="http://portfolio.gouzerh.fr/cv#experience1">
+    <cv:position xml:lang="fr">Alternante en Informatique</cv:position>
+    <cv:position xml:lang="en">Computer Science Intern</cv:position>
+    <cv:company xml:lang="fr">À définir</cv:company>
+    <schema:location xml:lang="fr">Paris</schema:location>
+    <cv:startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#gYear">2025</cv:startDate>
+  </cv:WorkExperience>
+
+  <cv:WorkExperience rdf:about="http://portfolio.gouzerh.fr/cv#experience2">
+    <cv:position xml:lang="fr">Animatrice de colonie de vacances</cv:position>
+    <cv:position xml:lang="en">Summer Camp Activity Leader</cv:position>
+    <cv:company xml:lang="fr">CSEC Total, Barioz</cv:company>
+    <schema:location xml:lang="fr">Barioz</schema:location>
+    <cv:startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#gYear">2021</cv:startDate>
+    <cv:endDate rdf:datatype="http://www.w3.org/2001/XMLSchema#gYear">2023</cv:endDate>
+  </cv:WorkExperience>
+
+  <cv:WorkExperience rdf:about="http://portfolio.gouzerh.fr/cv#experience3">
+    <cv:position xml:lang="fr">Membre du Bureau des Étudiants</cv:position>
+    <cv:position xml:lang="en">Member of the Student Board</cv:position>
+    <cv:company xml:lang="fr">Sup Galilée</cv:company>
+    <schema:location xml:lang="fr">Villetaneuse</schema:location>
+    <cv:startDate rdf:datatype="http://www.w3.org/2001/XMLSchema#gYear">2022</cv:startDate>
+    <cv:endDate rdf:datatype="http://www.w3.org/2001/XMLSchema#gYear">2025</cv:endDate>
+  </cv:WorkExperience>
+
+  <!-- Projets -->
+  <cv:Project rdf:about="http://portfolio.gouzerh.fr/cv#project1">
+    <cv:projectName xml:lang="fr">Puissance 4 jouable à 2 ou contre un bot</cv:projectName>
+    <cv:projectName xml:lang="en">Connect 4 playable for 2 or against bot</cv:projectName>
+    <schema:description xml:lang="fr">Programme selon l'algorithme min max pour choisir le meilleur coup</schema:description>
+    <cv:technology>C</cv:technology>
+    <cv:technology>Algorithme Min-Max</cv:technology>
+    <schema:dateCreated rdf:datatype="http://www.w3.org/2001/XMLSchema#gYear">2024</schema:dateCreated>
+  </cv:Project>
+
+  <cv:Project rdf:about="http://portfolio.gouzerh.fr/cv#project2">
+    <cv:projectName xml:lang="fr">Pac Man</cv:projectName>
+    <cv:projectName xml:lang="en">Pac Man</cv:projectName>
+    <schema:description xml:lang="fr">Jeu Pac Man développé en C</schema:description>
+    <cv:technology>C</cv:technology>
+    <schema:dateCreated rdf:datatype="http://www.w3.org/2001/XMLSchema#gYear">2022</schema:dateCreated>
+  </cv:Project>
+
+  <cv:Project rdf:about="http://portfolio.gouzerh.fr/cv#project3">
+    <cv:projectName xml:lang="fr">Jeu de la vie en n dimensions</cv:projectName>
+    <cv:projectName xml:lang="en">Game of Life in n dimensions</cv:projectName>
+    <schema:description xml:lang="fr">En cours de développement en Java</schema:description>
+    <cv:technology>Java</cv:technology>
+  </cv:Project>
+
+  <!-- Compétences -->
+  <cv:Skill rdf:about="http://portfolio.gouzerh.fr/cv#skill1">
+    <rdfs:label xml:lang="fr">Langages de Programmation</rdfs:label>
+    <rdfs:label xml:lang="en">Programming Languages</rdfs:label>
+    <schema:description xml:lang="fr">C, Python, HTML, CSS, Matlab, MIPS, SQL, Java, Javascript</schema:description>
+    <cv:skillLevel rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</cv:skillLevel>
+  </cv:Skill>
+
+  <cv:Skill rdf:about="http://portfolio.gouzerh.fr/cv#skill2">
+    <rdfs:label xml:lang="fr">Algorithmique</rdfs:label>
+    <rdfs:label xml:lang="en">Algorithmic</rdfs:label>
+    <cv:skillLevel rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</cv:skillLevel>
+  </cv:Skill>
+
+  <cv:Skill rdf:about="http://portfolio.gouzerh.fr/cv#skill3">
+    <rdfs:label xml:lang="fr">Communication</rdfs:label>
+    <rdfs:label xml:lang="en">Communication</rdfs:label>
+    <cv:skillLevel rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</cv:skillLevel>
+  </cv:Skill>
+
+  <!-- Langues -->
+  <cv:Language rdf:about="http://portfolio.gouzerh.fr/cv#lang-fr">
+    <rdfs:label xml:lang="fr">Français</rdfs:label>
+    <rdfs:label xml:lang="en">French</rdfs:label>
+    <schema:proficiencyLevel xml:lang="fr">Langue maternelle</schema:proficiencyLevel>
+    <schema:proficiencyLevel xml:lang="en">Native language</schema:proficiencyLevel>
+  </cv:Language>
+
+  <cv:Language rdf:about="http://portfolio.gouzerh.fr/cv#lang-en">
+    <rdfs:label xml:lang="fr">Anglais</rdfs:label>
+    <rdfs:label xml:lang="en">English</rdfs:label>
+    <schema:proficiencyLevel xml:lang="fr">Avancé</schema:proficiencyLevel>
+    <schema:proficiencyLevel xml:lang="en">Advanced</schema:proficiencyLevel>
+  </cv:Language>
+
+  <cv:Language rdf:about="http://portfolio.gouzerh.fr/cv#lang-de">
+    <rdfs:label xml:lang="fr">Allemand</rdfs:label>
+    <rdfs:label xml:lang="en">German</rdfs:label>
+    <schema:proficiencyLevel xml:lang="fr">Notions</schema:proficiencyLevel>
+    <schema:proficiencyLevel xml:lang="en">Basic notions</schema:proficiencyLevel>
+  </cv:Language>
+
+</rdf:RDF>

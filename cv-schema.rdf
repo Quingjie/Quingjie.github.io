@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:cv="http://portfolio.gouzerh.fr/cv#"
+         xmlns:foaf="http://xmlns.com/foaf/0.1/"
+         xmlns:schema="http://schema.org/">
+
+  
+  <rdfs:Class rdf:about="http://portfolio.gouzerh.fr/cv#Person">
+    <rdfs:label xml:lang="fr">Personne</rdfs:label>
+    <rdfs:label xml:lang="en">Person</rdfs:label>
+    <rdfs:label xml:lang="zh">人员</rdfs:label>
+    <rdfs:comment xml:lang="fr">Une personne avec un CV</rdfs:comment>
+    <rdfs:comment xml:lang="en">A person with a CV</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+    <rdfs:subClassOf rdf:resource="http://schema.org/Person"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://portfolio.gouzerh.fr/cv#Education">
+    <rdfs:label xml:lang="fr">Formation</rdfs:label>
+    <rdfs:label xml:lang="en">Education</rdfs:label>
+    <rdfs:label xml:lang="zh">教育</rdfs:label>
+    <rdfs:comment xml:lang="fr">Formation académique ou professionnelle</rdfs:comment>
+    <rdfs:comment xml:lang="en">Academic or professional education</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://schema.org/EducationalOrganization"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://portfolio.gouzerh.fr/cv#WorkExperience">
+    <rdfs:label xml:lang="fr">Expérience professionnelle</rdfs:label>
+    <rdfs:label xml:lang="en">Work Experience</rdfs:label>
+    <rdfs:label xml:lang="zh">工作经验</rdfs:label>
+    <rdfs:comment xml:lang="fr">Expérience de travail ou stage</rdfs:comment>
+    <rdfs:comment xml:lang="en">Work or internship experience</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://schema.org/WorkExperience"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://portfolio.gouzerh.fr/cv#Project">
+    <rdfs:label xml:lang="fr">Projet</rdfs:label>
+    <rdfs:label xml:lang="en">Project</rdfs:label>
+    <rdfs:label xml:lang="zh">项目</rdfs:label>
+    <rdfs:comment xml:lang="fr">Projet informatique ou académique</rdfs:comment>
+    <rdfs:comment xml:lang="en">Computer or academic project</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://schema.org/CreativeWork"/>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://portfolio.gouzerh.fr/cv#Skill">
+    <rdfs:label xml:lang="fr">Compétence</rdfs:label>
+    <rdfs:label xml:lang="en">Skill</rdfs:label>
+    <rdfs:label xml:lang="zh">技能</rdfs:label>
+    <rdfs:comment xml:lang="fr">Compétence technique ou interpersonnelle</rdfs:comment>
+    <rdfs:comment xml:lang="en">Technical or interpersonal skill</rdfs:comment>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://portfolio.gouzerh.fr/cv#Language">
+    <rdfs:label xml:lang="fr">Langue</rdfs:label>
+    <rdfs:label xml:lang="en">Language</rdfs:label>
+    <rdfs:label xml:lang="zh">语言</rdfs:label>
+    <rdfs:comment xml:lang="fr">Langue parlée ou écrite</rdfs:comment>
+    <rdfs:comment xml:lang="en">Spoken or written language</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://schema.org/Language"/>
+  </rdfs:Class>
+
+  <!-- Propriétés -->
+  
+  <!-- Propriétés d'identité -->
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#firstName">
+    <rdfs:label xml:lang="fr">prénom</rdfs:label>
+    <rdfs:label xml:lang="en">first name</rdfs:label>
+    <rdfs:label xml:lang="zh">名字</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#Person"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:subPropertyOf rdf:resource="http://xmlns.com/foaf/0.1/firstName"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#lastName">
+    <rdfs:label xml:lang="fr">nom de famille</rdfs:label>
+    <rdfs:label xml:lang="en">last name</rdfs:label>
+    <rdfs:label xml:lang="zh">姓氏</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#Person"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:subPropertyOf rdf:resource="http://xmlns.com/foaf/0.1/surname"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#birthDate">
+    <rdfs:label xml:lang="fr">date de naissance</rdfs:label>
+    <rdfs:label xml:lang="en">birth date</rdfs:label>
+    <rdfs:label xml:lang="zh">出生日期</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#Person"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+    <rdfs:subPropertyOf rdf:resource="http://schema.org/birthDate"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#jobTitle">
+    <rdfs:label xml:lang="fr">titre du poste</rdfs:label>
+    <rdfs:label xml:lang="en">job title</rdfs:label>
+    <rdfs:label xml:lang="zh">职位</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#Person"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:subPropertyOf rdf:resource="http://schema.org/jobTitle"/>
+  </rdf:Property>
+
+  <!-- Propriétés de contact -->
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#email">
+    <rdfs:label xml:lang="fr">email</rdfs:label>
+    <rdfs:label xml:lang="en">email</rdfs:label>
+    <rdfs:label xml:lang="zh">电子邮件</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#Person"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:subPropertyOf rdf:resource="http://xmlns.com/foaf/0.1/mbox"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#phone">
+    <rdfs:label xml:lang="fr">téléphone</rdfs:label>
+    <rdfs:label xml:lang="en">phone</rdfs:label>
+    <rdfs:label xml:lang="zh">电话</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#Person"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:subPropertyOf rdf:resource="http://xmlns.com/foaf/0.1/phone"/>
+  </rdf:Property>
+
+  <!-- Propriétés de formation -->
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#hasEducation">
+    <rdfs:label xml:lang="fr">a une formation</rdfs:label>
+    <rdfs:label xml:lang="en">has education</rdfs:label>
+    <rdfs:label xml:lang="zh">有教育</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#Person"/>
+    <rdfs:range rdf:resource="http://portfolio.gouzerh.fr/cv#Education"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#degree">
+    <rdfs:label xml:lang="fr">diplôme</rdfs:label>
+    <rdfs:label xml:lang="en">degree</rdfs:label>
+    <rdfs:label xml:lang="zh">学位</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#Education"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#institution">
+    <rdfs:label xml:lang="fr">établissement</rdfs:label>
+    <rdfs:label xml:lang="en">institution</rdfs:label>
+    <rdfs:label xml:lang="zh">机构</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#Education"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <!-- Propriétés d'expérience -->
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#hasWorkExperience">
+    <rdfs:label xml:lang="fr">a une expérience</rdfs:label>
+    <rdfs:label xml:lang="en">has work experience</rdfs:label>
+    <rdfs:label xml:lang="zh">有工作经验</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#Person"/>
+    <rdfs:range rdf:resource="http://portfolio.gouzerh.fr/cv#WorkExperience"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#position">
+    <rdfs:label xml:lang="fr">poste</rdfs:label>
+    <rdfs:label xml:lang="en">position</rdfs:label>
+    <rdfs:label xml:lang="zh">职位</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#WorkExperience"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#company">
+    <rdfs:label xml:lang="fr">entreprise</rdfs:label>
+    <rdfs:label xml:lang="en">company</rdfs:label>
+    <rdfs:label xml:lang="zh">公司</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#WorkExperience"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <!-- Propriétés de projet -->
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#hasProject">
+    <rdfs:label xml:lang="fr">a un projet</rdfs:label>
+    <rdfs:label xml:lang="en">has project</rdfs:label>
+    <rdfs:label xml:lang="zh">有项目</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#Person"/>
+    <rdfs:range rdf:resource="http://portfolio.gouzerh.fr/cv#Project"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#projectName">
+    <rdfs:label xml:lang="fr">nom du projet</rdfs:label>
+    <rdfs:label xml:lang="en">project name</rdfs:label>
+    <rdfs:label xml:lang="zh">项目名称</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#Project"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#technology">
+    <rdfs:label xml:lang="fr">technologie</rdfs:label>
+    <rdfs:label xml:lang="en">technology</rdfs:label>
+    <rdfs:label xml:lang="zh">技术</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#Project"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Property>
+
+  <!-- Propriétés de compétence -->
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#hasSkill">
+    <rdfs:label xml:lang="fr">a une compétence</rdfs:label>
+    <rdfs:label xml:lang="en">has skill</rdfs:label>
+    <rdfs:label xml:lang="zh">有技能</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#Person"/>
+    <rdfs:range rdf:resource="http://portfolio.gouzerh.fr/cv#Skill"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#skillLevel">
+    <rdfs:label xml:lang="fr">niveau de compétence</rdfs:label>
+    <rdfs:label xml:lang="en">skill level</rdfs:label>
+    <rdfs:label xml:lang="zh">技能水平</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#Skill"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </rdf:Property>
+
+  <!-- Propriétés de langue -->
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#speaksLanguage">
+    <rdfs:label xml:lang="fr">parle une langue</rdfs:label>
+    <rdfs:label xml:lang="en">speaks language</rdfs:label>
+    <rdfs:label xml:lang="zh">说语言</rdfs:label>
+    <rdfs:domain rdf:resource="http://portfolio.gouzerh.fr/cv#Person"/>
+    <rdfs:range rdf:resource="http://portfolio.gouzerh.fr/cv#Language"/>
+    <rdfs:subPropertyOf rdf:resource="http://schema.org/knowsLanguage"/>
+  </rdf:Property>
+
+  <!-- Propriétés temporelles -->
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#startDate">
+    <rdfs:label xml:lang="fr">date de début</rdfs:label>
+    <rdfs:label xml:lang="en">start date</rdfs:label>
+    <rdfs:label xml:lang="zh">开始日期</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#gYear"/>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://portfolio.gouzerh.fr/cv#endDate">
+    <rdfs:label xml:lang="fr">date de fin</rdfs:label>
+    <rdfs:label xml:lang="en">end date</rdfs:label>
+    <rdfs:label xml:lang="zh">结束日期</rdfs:label>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#gYear"/>
+  </rdf:Property>
+
+</rdf:RDF>
