@@ -1,10 +1,155 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
-    <meta charset="utf-8">
-    <title>Portfolio WS</title>
-  </head>
-  <body>
-    <h1>Bonjour vous vous trouvez sur le portfolio de Katell GOUZERH</h1>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Multilingue - Katell GOUZERH</title>
+    
+    <!-- Liens vers autres versions linguistiques pour le SEO -->
+    <link rel="alternate" hreflang="fr-FR" href="?lang=fr-FR">
+    <link rel="alternate" hreflang="en-GB" href="?lang=en-GB">
+    <link rel="alternate" hreflang="zh-CN" href="?lang=zh-CN">
+    <link rel="alternate" hreflang="x-default" href="/">
+    
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px;
+            transition: opacity 0.3s ease;
+        }
+        
+        .loading { 
+            text-align: center; 
+            padding: 50px; 
+        }
+        
+        /* Améliorations pour la navigation fluide */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Animation de transition lors du changement de langue */
+        body.changing-language {
+            opacity: 0.7;
+        }
+        
+        /* Boutons de langue de secours */
+        .emergency-lang-selector {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .emergency-lang-selector button {
+            margin: 5px;
+            padding: 8px 12px;
+            border: none;
+            background: #3498db;
+            color: white;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .emergency-lang-selector button:hover {
+            background: #2980b9;
+        }
+        
+        /* Panel de debug simple */
+        .debug-info {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading">
+        <h1>Chargement du CV multilingue...</h1>
+        <p>Le contenu se charge depuis les données XML avec transformation XSLT.</p>
+        
+        <!-- Boutons de langue de secours en cas d'échec -->
+        <div class="emergency-lang-selector" id="emergency-selector" style="display: none;">
+            <p><strong>En cas de problème, choisissez votre langue :</strong></p>
+            <button onclick="forceLanguage('fr-FR')">🇫🇷 Français</button>
+            <button onclick="forceLanguage('en-GB')">🇬🇧 English</button>
+            <button onclick="forceLanguage('zh-CN')">🇨🇳 中文</button>
+            <br><br>
+            <button onclick="location.reload()" style="background: #e74c3c;">🔄 Recharger</button>
+        </div>
+    </div>
+
+    <!-- Panel de debug (visible si ?debug=1 dans l'URL) -->
+    <div class="debug-info" id="debug-info">
+        <div id="debug-content"></div>
+    </div>
+
+    <script>
+        // Variables globales
+        let debugMode = new URLSearchParams(window.location.search).has('debug');
+        
+        // Afficher le debug si demandé
+        if (debugMode) {
+            document.getElementById('debug-info').style.display = 'block';
+            updateDebugInfo();
+        }
+        
+        // Fonction pour forcer une langue (boutons de secours)
+        function forceLanguage(lang) {
+            console.log('🚨 Langue forcée:', lang);
+            localStorage.setItem('cv_langue', lang);
+            
+            // Essayer d'abord de recharger avec le paramètre GET
+            const url = new URL(window.location);
+            url.searchParams.set('lang', lang);
+            window.location.href = url.toString();
+        }
+        
+        // Fonction pour mettre à jour les infos de debug
+        function updateDebugInfo() {
+            if (!debugMode) return;
+            
+            const debugContent = document.getElementById('debug-content');
+            const info = {
+                'URL actuelle': window.location.href,
+                'Paramètre lang': new URLSearchParams(window.location.search).get('lang') || 'aucun',
+                'localStorage': localStorage.getItem('cv_langue') || 'vide',
+                'sessionStorage POST': sessionStorage.getItem('cv_langue_post') || 'vide',
+                'Navigator language': navigator.language,
+                'Accept-Language': navigator.languages.join(', ')
+            };
+            
+            debugContent.innerHTML = Object.entries(info)
+                .map(([key, value]) => `<strong>${key}:</strong> ${value}`)
+                .join('<br>');
+        }
+        
+        // Timeout de sécurité - afficher les boutons de secours après 8 secondes
+        setTimeout(() => {
+            const loading = document.querySelector('.loading h1');
+            const emergency = document.getElementById('emergency-selector');
+            
+            if (loading && loading.textContent.includes('Chargement')) {
+                console.warn('⚠️ Timeout de chargement - affichage des boutons de secours');
+                loading.textContent = 'Problème de chargement détecté';
+                emergency.style.display = 'block';
+            }
+        }, 8000);
+        
+        // Mettre à jour le debug toutes les 2 secondes si activé
+        if (debugMode) {
+            setInterval(updateDebugInfo, 2000);
+        }
+    </script>
+    
+    <!-- Chargement du contrôleur principal -->
+    <script src="cv-controller.js"></script>
   </body>
 </html>
